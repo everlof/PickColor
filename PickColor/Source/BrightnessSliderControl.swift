@@ -2,9 +2,9 @@ import Foundation
 
 class BrightnessSliderControl: UIControl {
 
-    private var _color: UIColor = .red
+    // MARK: - Public variables
 
-    var color: UIColor {
+    public var color: UIColor {
         get {
             var hsv = HSVColor(uiColor: _color)
             hsv.v = brightness
@@ -15,20 +15,32 @@ class BrightnessSliderControl: UIControl {
         }
     }
 
-    var brightness: CGFloat = 0.5
+    public var brightness: CGFloat = 0.5
+
+    // MARK: - Private variables
+
+    private var _color: UIColor = .red
+
+    private var renderingFrame: CGRect = .zero
+
+    private var controlFrame: CGRect = .zero
+
+    private let cursor: MarkerView
 
     private lazy var sliderLayer: CAGradientLayer = {
         return CAGradientLayer(layer: self.layer)
     }()
 
+    // MARK: - Overridden variables
+
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 10)
     }
 
-    let cursor = ColorMapMarkerView()
-
-    init() {
+    public init(color: UIColor) {
+        self.cursor = MarkerView(color: color)
         super.init(frame: .zero)
+        set(color: color)
         sliderLayer.startPoint = CGPoint(x: 0, y: 0.5)
         sliderLayer.endPoint = CGPoint(x: 1, y: 0.5)
         sliderLayer.borderColor = UIColor.lightGray.cgColor
@@ -48,8 +60,9 @@ class BrightnessSliderControl: UIControl {
         addGestureRecognizer(panGestureRecognizer)
     }
 
-    var renderingFrame: CGRect = .zero
-    var controlFrame: CGRect = .zero
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -59,43 +72,6 @@ class BrightnessSliderControl: UIControl {
         sliderLayer.frame = renderingFrame
         sliderLayer.cornerRadius = renderingFrame.size.height / 2
     }
-
-    /*
- - (void)layoutSubviews {
- [super layoutSubviews];
- CGRect frame = (CGRect) {.origin = CGPointZero, .size = self.frame.size};
- _renderingFrame = UIEdgeInsetsInsetRect(frame, self.alignmentRectInsets);
- _controlFrame = CGRectInset(_renderingFrame, 8, 0);
- _brightnessCursor.center = CGPointMake(
- CGRectGetMinX(_controlFrame),
- CGRectGetMidY(_controlFrame));
- _sliderLayer.cornerRadius = _renderingFrame.size.height / 2;
- _sliderLayer.frame = _renderingFrame;
- [self updateCursor];
- }*/
-
-/*- (void)setColor:(UIColor *)color {
- _color = color;
-
- CGFloat brightness;
- [_color getHue:NULL saturation:NULL brightness:&brightness alpha:NULL];
- _brightness = @(brightness);
-
- [self updateCursor];
-
- [CATransaction begin];
- [CATransaction setValue:(id) kCFBooleanTrue
- forKey:kCATransactionDisableActions];
-
- HRHSVColor hsvColor;
- HSVColorFromUIColor(_color, &hsvColor);
- UIColor *darkColorFromHsv = [UIColor colorWithHue:hsvColor.h saturation:hsvColor.s brightness:self.brightnessLowerLimit.floatValue alpha:1.0f];
- UIColor *lightColorFromHsv = [UIColor colorWithHue:hsvColor.h saturation:hsvColor.s brightness:1.0f alpha:1.0f];
-
- _sliderLayer.colors = @[(id) lightColorFromHsv.CGColor, (id) darkColorFromHsv.CGColor];
-
- [CATransaction commit];
- }*/
 
     private func set(color: UIColor) {
         _color = color
@@ -108,31 +84,6 @@ class BrightnessSliderControl: UIControl {
 
         sliderLayer.colors = [ lightColorFromHSV.cgColor, darkColorFromHSV.cgColor ]
     }
-
-    /*
- - (void)handleTap:(UITapGestureRecognizer *)sender {
- if (sender.state == UIGestureRecognizerStateEnded) {
- if (sender.numberOfTouches <= 0) {
- return;
- }
- CGPoint tapPoint = [sender locationOfTouch:0 inView:self];
- [self update:tapPoint];
- [self updateCursor];
- }
- }
-
- - (void)handlePan:(UIPanGestureRecognizer *)sender {
- if (sender.state == UIGestureRecognizerStateChanged || sender.state == UIGestureRecognizerStateEnded) {
- if (sender.numberOfTouches <= 0) {
- _brightnessCursor.editing = NO;
- return;
- }
- CGPoint tapPoint = [sender locationOfTouch:0 inView:self];
- [self update:tapPoint];
- [self updateCursor];
- _brightnessCursor.editing = YES;
- }
- }*/
 
     @objc func handleTap(gesture: UITapGestureRecognizer) {
         if gesture.state == .ended {
@@ -168,35 +119,6 @@ class BrightnessSliderControl: UIControl {
         let brightnessCursorX = 1.0 - brightness
         cursor.color = color
         cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
-    }
-
-    /*
- - (void)update:(CGPoint)tapPoint {
- CGFloat selectedBrightness = 0;
- CGPoint tapPointInSlider = CGPointMake(tapPoint.x - _controlFrame.origin.x, tapPoint.y);
- tapPointInSlider.x = MIN(tapPointInSlider.x, _controlFrame.size.width);
- tapPointInSlider.x = MAX(tapPointInSlider.x, 0);
-
- selectedBrightness = 1.0 - tapPointInSlider.x / _controlFrame.size.width;
- selectedBrightness = selectedBrightness * (1.0 - self.brightnessLowerLimit.floatValue) + self.brightnessLowerLimit.floatValue;
- _brightness = @(selectedBrightness);
-
- [self sendActionsForControlEvents:UIControlEventValueChanged];
- }
-
- - (void)updateCursor {
- CGFloat brightnessCursorX = (1.0f - (self.brightness.floatValue - self.brightnessLowerLimit.floatValue) / (1.0f - self.brightnessLowerLimit.floatValue));
- if (brightnessCursorX < 0) {
- return;
- }
- CGPoint point = CGPointMake(brightnessCursorX * _controlFrame.size.width + _controlFrame.origin.x, _brightnessCursor.center.y);
- _brightnessCursor.center = point;
- _brightnessCursor.color = self.color;
- }
-*/
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     override var alignmentRectInsets: UIEdgeInsets {

@@ -15,7 +15,7 @@ public class ControlBoardView: UIView,
 
     let recentColorsCollectionView = RecentColorsCollectionView()
 
-    let brightnessSlider = BrightnessSliderControl()
+    let brightnessSlider: BrightnessSliderControl
 
     public var hexFont: UIFont? {
         get {
@@ -44,7 +44,8 @@ public class ControlBoardView: UIView,
         return CGSize(width: UIView.noIntrinsicMetric, height: currentColorView.intrinsicContentSize.height + 24)
     }
 
-    init() {
+    public init(color: UIColor) {
+        brightnessSlider = BrightnessSliderControl(color: color)
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
 

@@ -6,11 +6,14 @@ protocol ColorTextFieldDelegate: class {
 
 class ColorTextField: UITextField, UITextFieldDelegate {
 
-    private var prevText: String?
-
     weak var colorTextFieldDelegate: ColorTextFieldDelegate?
 
-    let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    // For when entering something that is NOT a HEX-Color.
+    private let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+
+    // If canceling editing when a non-valid HEX-Color is present in the textfield,
+    // we'll revert to this value.
+    private var prevText: String?
 
     override var intrinsicContentSize: CGSize {
         let superSize = super.intrinsicContentSize

@@ -10,20 +10,27 @@ import Foundation
 
 public class PickColorView: UIView {
 
-    public let colorMap: ColorMapControl
+    public let colorMapControl: ColorMapControl
 
     public init() {
-        colorMap = ColorMapControl()
-        colorMap.translatesAutoresizingMaskIntoConstraints = false
+        colorMapControl = ColorMapControl(color: UIColor(hexString: "#357f4e")!)
+        colorMapControl.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
 
-        addSubview(colorMap)
+        addSubview(colorMapControl)
 
-        colorMap.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        colorMap.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        colorMap.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        colorMap.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        colorMapControl.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        colorMapControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+
+        // colorMapControl.brightness = 0.5
+        colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
+    }
+
+    @objc func colorMapChangedColor() {
+        print("=> \(colorMapControl.color.hex)")
     }
 
     required init?(coder aDecoder: NSCoder) {

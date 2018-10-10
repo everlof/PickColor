@@ -1,8 +1,63 @@
-import Foundation
+import UIKit
 
-public class ColorMapMarkerView: UIView {
+public class MarkerView: UIView {
 
-    public var size = CGSize(width: 28, height: 28) {
+    // MARK: - Static configuration
+
+    public static var defaultDiagonal: CGFloat = 28.0
+
+    public static var defaultEditingMagnification: CGFloat = 3.0
+
+    public static var defaultBorderWidth: CGFloat = 5.5
+
+    // MARK:  - Public variables
+
+    /// The diagonal of `self`.
+    public var diagonal = MarkerView.defaultDiagonal {
+        didSet {
+            size = CGSize(width: diagonal, height: diagonal)
+        }
+    }
+
+    public var borderWidth = MarkerView.defaultBorderWidth {
+        didSet {
+            update(animated: true)
+        }
+    }
+
+    public var editingMagnification: CGFloat = MarkerView.defaultEditingMagnification {
+        didSet {
+            update(animated: true)
+        }
+    }
+
+    public var circleBoarderColor = UIColor(white: 0.65, alpha: 1.0) {
+        didSet {
+            backLayer.borderColor = circleBoarderColor.cgColor
+        }
+    }
+
+    public var circleColor = UIColor(white: 1.0, alpha: 0.7) {
+        didSet {
+            backLayer.backgroundColor = circleColor.cgColor
+        }
+    }
+
+    public var editing: Bool = false {
+        didSet {
+            update(animated: true)
+        }
+    }
+
+    public var color: UIColor {
+        didSet {
+            update(animated: true)
+        }
+    }
+
+    // MARK: - Private variables
+
+    private var size = CGSize(width: MarkerView.defaultDiagonal, height: MarkerView.defaultDiagonal) {
         didSet {
             update(animated: true)
         }
@@ -12,31 +67,8 @@ public class ColorMapMarkerView: UIView {
 
     private let colorLayer = CALayer()
 
-    public var editingMagnification: CGFloat = 3.0
-
-    var color: UIColor = .white {
-        didSet {
-            update(animated: true)
-        }
-    }
-
-    var circleBoarderColor = UIColor(white: 0.65, alpha: 1.0) {
-        didSet {
-            backLayer.borderColor = circleBoarderColor.cgColor
-        }
-    }
-
-    var circleColor = UIColor(white: 1.0, alpha: 0.7) {
-        didSet {
-            backLayer.backgroundColor = circleColor.cgColor
-        }
-    }
-
-    var editing: Bool = false {
-        didSet { update(animated: true) }
-    }
-
-    public init() {
+    public init(color: UIColor) {
+        self.color = color
         super.init(frame: CGRect(origin: .zero, size: size))
         backgroundColor = .clear
         isUserInteractionEnabled = false
@@ -66,11 +98,11 @@ public class ColorMapMarkerView: UIView {
                 // by dividing it's original size by the magnification we apply
 
                 self.transform = CGAffineTransform.identity.scaledBy(x: self.editingMagnification, y: self.editingMagnification)
-                self.colorLayer.frame = backFrame.insetBy(dx: 5.5 / self.editingMagnification, dy: 5.5 / self.editingMagnification)
+                self.colorLayer.frame = backFrame.insetBy(dx: self.borderWidth / self.editingMagnification, dy: self.borderWidth / self.editingMagnification)
                 self.backLayer.borderWidth = (1 / UIScreen.main.scale) / self.editingMagnification
             } else {
                 self.transform = CGAffineTransform.identity
-                self.colorLayer.frame = backFrame.insetBy(dx: 5.5, dy: 5.5)
+                self.colorLayer.frame = backFrame.insetBy(dx: self.borderWidth, dy: self.borderWidth)
                 self.backLayer.borderWidth = 1 / UIScreen.main.scale
             }
 
