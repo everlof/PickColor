@@ -1,6 +1,6 @@
 import Foundation
 
-public class ColorMarker: UIView {
+public class ColorMapMarkerView: UIView {
 
     public var size = CGSize(width: 28, height: 28) {
         didSet {

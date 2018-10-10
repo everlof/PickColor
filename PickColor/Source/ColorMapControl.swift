@@ -1,11 +1,3 @@
-//
-//  ColorMapControl.swift
-//  PickColor
-//
-//  Created by David Everlöf on 2018-10-08.
-//  Copyright © 2018 David Everlöf. All rights reserved.
-//
-
 import UIKit
 
 struct HSVColor {
@@ -20,7 +12,7 @@ struct HSVColor {
 
 public class ColorMapControl: UIControl, ControlBoardViewDelegate {
 
-    let marker = ColorMarker()
+    let marker = ColorMapMarkerView()
 
     public var selectedColor: UIColor {
         didSet {
@@ -175,7 +167,7 @@ public class ColorMapControl: UIControl, ControlBoardViewDelegate {
             }
         }
 
-        return UIImage.colorMap(with: colorMapSize, renderer: renderToContext)
+        return UIImage.renderImage(with: colorMapSize, renderer: renderToContext)
     }
 
     static func backgroundColorMap(with size: CGSize, and tileSide: CGFloat) -> UIImage {
@@ -203,7 +195,7 @@ public class ColorMapControl: UIControl, ControlBoardViewDelegate {
             }
         }
 
-        return UIImage.colorMap(with: colorMapSize, renderer: renderToContext)
+        return UIImage.renderImage(with: colorMapSize, renderer: renderToContext)
     }
 
     // MARK: - ControlBoardViewDelegate

@@ -2,7 +2,7 @@ import UIKit
 
 extension UIImage {
 
-    static func colorMap(with size: CGSize, opaque: Bool = false, renderer: ((CGContext, CGRect) -> Void)) -> UIImage {
+    static func renderImage(with size: CGSize, opaque: Bool = false, renderer: ((CGContext, CGRect) -> Void)) -> UIImage {
         var _size = size
         _size.height = _size.height == 0 ? 1 : _size.height
         _size.width = _size.width == 0 ? 1 : _size.width
