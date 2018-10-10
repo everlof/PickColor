@@ -1,18 +1,9 @@
-//
-//  AppDelegate.swift
-//  Example
-//
-//  Created by David Everlöf on 2018-10-08.
-//  Copyright © 2018 David Everlöf. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)

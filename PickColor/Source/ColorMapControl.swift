@@ -14,12 +14,14 @@ public class ColorMapControl: UIControl {
         didSet {
             if oldValue != color {
                 brightness = HSVColor(uiColor: color).v
+                updateColorCursor()
+                marker.color = color
                 sendActions(for: .valueChanged)
             }
         }
     }
 
-    public var brightness: CGFloat = 1 {
+    public var brightness: CGFloat {
         didSet {
             if brightness != oldValue {
                 var hsv = HSVColor(uiColor: color)

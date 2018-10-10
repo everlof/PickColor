@@ -1,15 +1,8 @@
 import UIKit
 
-protocol ControlBoardViewDelegate: class {
-    func controlBoardView(_: ControlBoardView, didSelectRecent color: UIColor)
-    func controlBoardView(_: ControlBoardView, didType color: UIColor)
-}
-
-public class ControlBoardView: UIView,
+public class ToolbarColorControl: UIControl,
     RecentColorsCollectionViewDelegate,
     ColorTextFieldDelegate {
-
-    weak var controlBoardViewDelegate: ControlBoardViewDelegate?
 
     let currentColorView = CurrentColorView()
 
@@ -26,9 +19,11 @@ public class ControlBoardView: UIView,
         }
     }
 
-    var currentColor: UIColor = .red {
+    var color: UIColor {
         didSet {
-            currentColorView.color = currentColor
+            currentColorView.color = color
+            brightnessSlider.color = color
+            sendActions(for: .valueChanged)
         }
     }
 
@@ -45,13 +40,16 @@ public class ControlBoardView: UIView,
     }
 
     public init(color: UIColor) {
+        self.color = color
+        currentColorView.color = color
+
         brightnessSlider = BrightnessSliderControl(color: color)
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
 
         currentColorView.colorHexTextField.colorTextFieldDelegate = self
 
-        addSubview(blurEffectView)
+        // addSubview(blurEffectView)
         addSubview(currentColorView)
         addSubview(recentColorsCollectionView)
         addSubview(brightnessSlider)
@@ -73,22 +71,30 @@ public class ControlBoardView: UIView,
         brightnessSlider.leftAnchor.constraint(equalTo: currentColorView.rightAnchor, constant: 14).isActive = true
         brightnessSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
         brightnessSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+
+        brightnessSlider.addTarget(self, action: #selector(brightnessChanged), for: .valueChanged)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    @objc private func brightnessChanged() {
+        var hsv = HSVColor(uiColor: color)
+        hsv.v = brightnessSlider.brightness
+        color = hsv.uiColor
+    }
+
     // MARK: - RecentColorsCollectionViewDelegate
 
     func didSelectRecent(color: UIColor) {
-        controlBoardViewDelegate?.controlBoardView(self, didSelectRecent: color)
+        self.color = color
     }
 
     // MARK: - ColorTextFieldDelegate
 
     func didInput(color: UIColor) {
-        controlBoardViewDelegate?.controlBoardView(self, didType: color)
+        self.color = color
     }
 
 }

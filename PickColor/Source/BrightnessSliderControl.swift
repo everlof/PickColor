@@ -19,6 +19,8 @@ class BrightnessSliderControl: UIControl {
 
     // MARK: - Private variables
 
+    private var feedbackGenerator = UISelectionFeedbackGenerator()
+
     private var _color: UIColor = .red
 
     private var renderingFrame: CGRect = .zero
@@ -47,11 +49,10 @@ class BrightnessSliderControl: UIControl {
         sliderLayer.borderWidth = 1.0 / UIScreen.main.scale
 
         layer.addSublayer(sliderLayer)
-
         cursor.editingMagnification = 1.5
-        addSubview(cursor)
-
         backgroundColor = .clear
+
+        addSubview(cursor)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
         addGestureRecognizer(tapGestureRecognizer)
@@ -71,6 +72,7 @@ class BrightnessSliderControl: UIControl {
         controlFrame = renderingFrame.insetBy(dx: 8, dy: 0)
         sliderLayer.frame = renderingFrame
         sliderLayer.cornerRadius = renderingFrame.size.height / 2
+        updateCursor()
     }
 
     private func set(color: UIColor) {
@@ -87,16 +89,25 @@ class BrightnessSliderControl: UIControl {
 
     @objc func handleTap(gesture: UITapGestureRecognizer) {
         if gesture.state == .ended {
+            feedbackGenerator.prepare()
             let tapPoint = gesture.location(ofTouch: 0, in: self)
             update(tapPoint: tapPoint)
             updateCursor()
+            feedbackGenerator.selectionChanged()
         }
     }
 
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began {
+            feedbackGenerator.prepare()
+            feedbackGenerator.selectionChanged()
+        }
+
         if gesture.state == .changed || gesture.state == .ended {
             if gesture.numberOfTouches <= 0 {
+                feedbackGenerator.prepare()
                 cursor.editing = false
+                feedbackGenerator.selectionChanged()
             } else {
                 let tapPoint = gesture.location(ofTouch: 0, in: self)
                 update(tapPoint: tapPoint)
@@ -119,6 +130,7 @@ class BrightnessSliderControl: UIControl {
         let brightnessCursorX = 1.0 - brightness
         cursor.color = color
         cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
+        cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
     }
 
     override var alignmentRectInsets: UIEdgeInsets {
@@ -132,4 +144,5 @@ class BrightnessSliderControl: UIControl {
     override func frame(forAlignmentRect alignmentRect: CGRect) -> CGRect {
         return alignmentRect.inset(by: UIEdgeInsets(top: -10, left: -20, bottom: -10, right: -20))
     }
+
 }

@@ -1,30 +1,13 @@
-//
-//  ViewController.swift
-//  Example
-//
-//  Created by David Everlöf on 2018-10-08.
-//  Copyright © 2018 David Everlöf. All rights reserved.
-//
-
 import UIKit
 import PickColor
 
 class ViewController: UIViewController {
 
-    let pickColorView: PickColorView
-
-    init() {
-        pickColorView = PickColorView()
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    let pickColorView = PickColorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .white
         view.addSubview(pickColorView)
         pickColorView.translatesAutoresizingMaskIntoConstraints = false
         pickColorView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
