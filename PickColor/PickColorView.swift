@@ -13,8 +13,7 @@ public class PickColorView: UIView {
     public let colorMap: ColorMapControl
 
     public init() {
-        
-        colorMap = ColorMapControl(tileSide: 1)
+        colorMap = ColorMapControl()
         colorMap.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)

@@ -36,7 +36,7 @@ class ColorTextField: UITextField, UITextFieldDelegate {
 
             backgroundColor = UIColor(red: 255.0/255.0, green: 59.0/255.0, blue: 48.0/255.0, alpha: 1.0)
             UIView.animate(withDuration: 0.25) {
-                self.backgroundColor = .black
+                self.backgroundColor = .white
             }
         }
         resignFirstResponder()

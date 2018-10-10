@@ -1,12 +1,12 @@
 import UIKit
 
-class ControlBoardScroller: UIScrollView {
+class ControlBoardScrollView: UIScrollView {
 
     let contentView = UIView()
 
-    private let topControlBoardView = ControlBoardView()
+    internal let topControlBoardView = ControlBoardView()
 
-    private let bottomControlBoardView = ControlBoardView()
+    internal let bottomControlBoardView = ControlBoardView()
 
     weak var controlBoardViewDelegate: ControlBoardViewDelegate? {
         get {

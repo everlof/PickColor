@@ -8,6 +8,19 @@ struct HSVColor {
     var uiColor: UIColor {
         return UIColor(hue: h, saturation: s, brightness: v, alpha: 1.0)
     }
+
+    init(h: CGFloat, s: CGFloat, v: CGFloat) {
+        self.h = h
+        self.s = s
+        self.v = v
+    }
+
+    init(uiColor: UIColor) {
+        self.h = 0
+        self.s = 0
+        self.v = 0
+        uiColor.getHue(&self.h, saturation: &self.s, brightness: &self.v, alpha: nil)
+    }
 }
 
 public class ColorMapControl: UIControl, ControlBoardViewDelegate {
@@ -19,6 +32,7 @@ public class ColorMapControl: UIControl, ControlBoardViewDelegate {
             if oldValue != selectedColor {
                 controlBoardScroller.currentColor = selectedColor
                 sendActions(for: .valueChanged)
+                controlBoardScroller.topControlBoardView.brightnessSlider.color = selectedColor
             }
         }
     }
@@ -43,7 +57,7 @@ public class ColorMapControl: UIControl, ControlBoardViewDelegate {
 
     let tileSide: CGFloat
 
-    let controlBoardScroller = ControlBoardScroller()
+    let controlBoardScroller = ControlBoardScrollView()
 
     var size: CGSize {
         didSet {
@@ -53,7 +67,7 @@ public class ColorMapControl: UIControl, ControlBoardViewDelegate {
         }
     }
 
-    public init(tileSide: CGFloat) {
+    public init(initialColor: UIColor = .red,tileSide: CGFloat = 1) {
         selectedColor = .red
         self.tileSide = tileSide
         size = CGSize(width: 1, height: 1)

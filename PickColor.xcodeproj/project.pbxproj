@@ -19,8 +19,9 @@
 		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 		C445EEAF216E250600851939 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEAE216E250600851939 /* ColorTextField.swift */; };
 		C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */; };
-		C445EEB4216E264B00851939 /* ControlBoardScroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB3216E264B00851939 /* ControlBoardScroller.swift */; };
+		C445EEB4216E264B00851939 /* ControlBoardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */; };
 		C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB5216E267400851939 /* CurrentColorView.swift */; };
+		C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +58,9 @@
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 		C445EEAE216E250600851939 /* ColorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
 		C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorCollectionViewCell.swift; sourceTree = "<group>"; };
-		C445EEB3216E264B00851939 /* ControlBoardScroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlBoardScroller.swift; sourceTree = "<group>"; };
+		C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlBoardScrollView.swift; sourceTree = "<group>"; };
 		C445EEB5216E267400851939 /* CurrentColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentColorView.swift; sourceTree = "<group>"; };
+		C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessSliderControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +130,9 @@
 				C43E12E0216CCC3800146F3A /* ColorMapMarkerView.swift */,
 				C445EEAE216E250600851939 /* ColorTextField.swift */,
 				C43E12E2216CD89A00146F3A /* ControlBoardView.swift */,
-				C445EEB3216E264B00851939 /* ControlBoardScroller.swift */,
+				C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */,
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
+				C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -290,10 +293,11 @@
 				C43E12E3216CD89A00146F3A /* ControlBoardView.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
+				C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */,
 				C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */,
 				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
 				C43E12E1216CCC3800146F3A /* ColorMapMarkerView.swift in Sources */,
-				C445EEB4216E264B00851939 /* ControlBoardScroller.swift in Sources */,
+				C445EEB4216E264B00851939 /* ControlBoardScrollView.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,
 				C445EEAF216E250600851939 /* ColorTextField.swift in Sources */,
 			);

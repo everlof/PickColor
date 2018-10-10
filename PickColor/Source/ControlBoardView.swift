@@ -15,6 +15,8 @@ public class ControlBoardView: UIView,
 
     let recentColorsCollectionView = RecentColorsCollectionView()
 
+    let brightnessSlider = BrightnessSliderControl()
+
     public var hexFont: UIFont? {
         get {
             return currentColorView.colorHexTextField.font
@@ -51,6 +53,7 @@ public class ControlBoardView: UIView,
         addSubview(blurEffectView)
         addSubview(currentColorView)
         addSubview(recentColorsCollectionView)
+        addSubview(brightnessSlider)
 
         currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
@@ -59,10 +62,16 @@ public class ControlBoardView: UIView,
         recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
         recentColorsCollectionView.recentColorDelegate = self
         recentColorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
         recentColorsCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         recentColorsCollectionView.leftAnchor.constraint(equalTo: currentColorView.rightAnchor).isActive = true
         recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+
+        brightnessSlider.translatesAutoresizingMaskIntoConstraints = false
+        brightnessSlider.leftAnchor.constraint(equalTo: currentColorView.rightAnchor, constant: 14).isActive = true
+        brightnessSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
+        brightnessSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {
