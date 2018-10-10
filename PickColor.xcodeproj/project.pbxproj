@@ -10,10 +10,13 @@
 		C43E129C216B82F400146F3A /* PickColor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43E1292216B82F400146F3A /* PickColor.framework */; };
 		C43E12A1216B82F400146F3A /* PickColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12A0216B82F400146F3A /* PickColorTests.swift */; };
 		C43E12A3216B82F400146F3A /* PickColor.h in Headers */ = {isa = PBXBuildFile; fileRef = C43E1295216B82F400146F3A /* PickColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C43E12AD216B830100146F3A /* CurrentColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12AC216B830100146F3A /* CurrentColorView.swift */; };
 		C43E12B0216B831400146F3A /* PickColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12AF216B831400146F3A /* PickColorView.swift */; };
 		C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B1216B832600146F3A /* ColorMapControl.swift */; };
 		C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */; };
+		C43E12E1216CCC3800146F3A /* ColorMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* ColorMarker.swift */; };
+		C43E12E3216CD89A00146F3A /* ControlBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E2216CD89A00146F3A /* ControlBoardView.swift */; };
+		C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */; };
+		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,6 +27,13 @@
 			remoteGlobalIDString = C43E1291216B82F400146F3A;
 			remoteInfo = PickColor;
 		};
+		C43E12D8216BCE8700146F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C43E12D4216BCE8600146F3A /* Example.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C43E12BF216BCE8400146F3A;
+			remoteInfo = Example;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +43,14 @@
 		C43E129B216B82F400146F3A /* PickColorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PickColorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C43E12A0216B82F400146F3A /* PickColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickColorTests.swift; sourceTree = "<group>"; };
 		C43E12A2216B82F400146F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C43E12AC216B830100146F3A /* CurrentColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentColorView.swift; sourceTree = "<group>"; };
 		C43E12AF216B831400146F3A /* PickColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickColorView.swift; sourceTree = "<group>"; };
 		C43E12B1216B832600146F3A /* ColorMapControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControl.swift; sourceTree = "<group>"; };
 		C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		C43E12D4216BCE8600146F3A /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Example.xcodeproj; path = PickColor/Example/Example/Example.xcodeproj; sourceTree = SOURCE_ROOT; };
+		C43E12E0216CCC3800146F3A /* ColorMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMarker.swift; sourceTree = "<group>"; };
+		C43E12E2216CD89A00146F3A /* ControlBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlBoardView.swift; sourceTree = "<group>"; };
+		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +112,13 @@
 		C43E12AE216B830400146F3A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C43E12D4216BCE8600146F3A /* Example.xcodeproj */,
 				C43E12B3216BCC2F00146F3A /* Extensions */,
-				C43E12AC216B830100146F3A /* CurrentColorView.swift */,
 				C43E12AF216B831400146F3A /* PickColorView.swift */,
 				C43E12B1216B832600146F3A /* ColorMapControl.swift */,
+				C43E12E0216CCC3800146F3A /* ColorMarker.swift */,
+				C43E12E2216CD89A00146F3A /* ControlBoardView.swift */,
+				C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -110,8 +127,17 @@
 			isa = PBXGroup;
 			children = (
 				C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */,
+				C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C43E12D5216BCE8600146F3A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C43E12D9216BCE8700146F3A /* Example.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +219,12 @@
 			mainGroup = C43E1288216B82F400146F3A;
 			productRefGroup = C43E1293216B82F400146F3A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C43E12D5216BCE8600146F3A /* Products */;
+					ProjectRef = C43E12D4216BCE8600146F3A /* Example.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C43E1291216B82F400146F3A /* PickColor */,
@@ -200,6 +232,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C43E12D9216BCE8700146F3A /* Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Example.app;
+			remoteRef = C43E12D8216BCE8700146F3A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C43E1290216B82F400146F3A /* Resources */ = {
@@ -223,10 +265,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C43E12AD216B830100146F3A /* CurrentColorView.swift in Sources */,
 				C43E12B0216B831400146F3A /* PickColorView.swift in Sources */,
 				C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */,
+				C43E12E3216CD89A00146F3A /* ControlBoardView.swift in Sources */,
+				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
+				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
+				C43E12E1216CCC3800146F3A /* ColorMarker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

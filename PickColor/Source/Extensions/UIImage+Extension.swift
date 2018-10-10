@@ -2,10 +2,14 @@ import UIKit
 
 extension UIImage {
 
-    func colorMap(with size: CGSize, opaque: Bool, renderer: ((CGContext, CGRect) -> Void)) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(size, opaque, 0)
+    static func colorMap(with size: CGSize, opaque: Bool = false, renderer: ((CGContext, CGRect) -> Void)) -> UIImage {
+        var _size = size
+        _size.height = _size.height == 0 ? 1 : _size.height
+        _size.width = _size.width == 0 ? 1 : _size.width
+
+        UIGraphicsBeginImageContextWithOptions(_size, opaque, 0)
         let context = UIGraphicsGetCurrentContext()!
-        let imageRect = CGRect(origin: .zero, size: CGSize(width: size.width, height: size.height))
+        let imageRect = CGRect(origin: .zero, size: CGSize(width: _size.width, height: _size.height))
         renderer(context, imageRect)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -14,19 +18,3 @@ extension UIImage {
 
 }
 
-/*
- + (UIImage *)hr_imageWithSize:(CGSize)size opaque:(BOOL)opaque renderer:(renderToContext)renderer {
- UIImage *image;
-
- UIGraphicsBeginImageContextWithOptions(size, opaque, 0);
-
- CGContextRef context = UIGraphicsGetCurrentContext();
-
- CGRect imageRect = CGRectMake(0.f, 0.f, size.width, size.height);
-
- renderer(context, imageRect);
-
- image = UIGraphicsGetImageFromCurrentImageContext();
- UIGraphicsEndImageContext();
- return image;
- }*/
