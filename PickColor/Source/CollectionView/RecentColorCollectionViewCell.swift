@@ -10,6 +10,8 @@ class RecentColorCollectionViewCell: UICollectionViewCell {
 
     weak var delegate: RecentColorCollectionViewCellDelegate?
 
+    private var feedbackGenerator = UISelectionFeedbackGenerator()
+
     let button = UIButton(type: .system)
 
     var color: UIColor = .red {
@@ -42,6 +44,8 @@ class RecentColorCollectionViewCell: UICollectionViewCell {
     }
 
     @objc func didPressButton() {
+        feedbackGenerator.prepare()
+        feedbackGenerator.selectionChanged()
         delegate?.didSelectRecent(color: color)
     }
 
