@@ -1,6 +1,8 @@
 import Foundation
 
-class BrightnessSliderControl: UIControl {
+public class BrightnessSliderControl: UIControl {
+
+    public static var defaultBrightnessLowerLimit: CGFloat = 0.05
 
     // MARK: - Public variables
 
@@ -17,11 +19,13 @@ class BrightnessSliderControl: UIControl {
 
     public var brightness: CGFloat = 0.5
 
+    public var brightnessLowerLimit: CGFloat = BrightnessSliderControl.defaultBrightnessLowerLimit
+
     // MARK: - Private variables
 
     private var feedbackGenerator = UISelectionFeedbackGenerator()
 
-    private var _color: UIColor = .red
+    private var _color: UIColor
 
     private var renderingFrame: CGRect = .zero
 
@@ -35,14 +39,15 @@ class BrightnessSliderControl: UIControl {
 
     // MARK: - Overridden variables
 
-    override var intrinsicContentSize: CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 10)
     }
 
     public init(color: UIColor) {
         self.cursor = MarkerView(color: color)
+        self._color = color
         super.init(frame: .zero)
-        set(color: color)
+        set(color: self.color)
         sliderLayer.startPoint = CGPoint(x: 0, y: 0.5)
         sliderLayer.endPoint = CGPoint(x: 1, y: 0.5)
         sliderLayer.borderColor = UIColor.lightGray.cgColor
@@ -65,7 +70,7 @@ class BrightnessSliderControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         let frame = CGRect(origin: .zero, size: self.frame.size)
         renderingFrame = frame.inset(by: self.alignmentRectInsets)
@@ -81,7 +86,7 @@ class BrightnessSliderControl: UIControl {
         self.brightness = hsv.v
         updateCursor()
 
-        let darkColorFromHSV = UIColor(hue: hsv.h, saturation: hsv.s, brightness: 0.0, alpha: 1.0)
+        let darkColorFromHSV = UIColor(hue: hsv.h, saturation: hsv.s, brightness: brightnessLowerLimit, alpha: 1.0)
         let lightColorFromHSV = UIColor(hue: hsv.h, saturation: hsv.s, brightness: 1.0, alpha: 1.0)
 
         sliderLayer.colors = [ lightColorFromHSV.cgColor, darkColorFromHSV.cgColor ]
@@ -117,31 +122,56 @@ class BrightnessSliderControl: UIControl {
         }
     }
 
+    /*
+ - (void)update:(CGPoint)tapPoint {
+ CGFloat selectedBrightness = 0;
+ CGPoint tapPointInSlider = CGPointMake(tapPoint.x - _controlFrame.origin.x, tapPoint.y);
+ tapPointInSlider.x = MIN(tapPointInSlider.x, _controlFrame.size.width);
+ tapPointInSlider.x = MAX(tapPointInSlider.x, 0);
+
+ selectedBrightness = 1.0 - tapPointInSlider.x / _controlFrame.size.width;
+ selectedBrightness = selectedBrightness * (1.0 - self.brightnessLowerLimit.floatValue) + self.brightnessLowerLimit.floatValue;
+ _brightness = @(selectedBrightness);
+
+ [self sendActionsForControlEvents:UIControlEventValueChanged];
+ }
+
+ - (void)updateCursor {
+ CGFloat brightnessCursorX = (1.0f - (self.brightness.floatValue - self.brightnessLowerLimit.floatValue) / (1.0f - self.brightnessLowerLimit.floatValue));
+ if (brightnessCursorX < 0) {
+ return;
+ }
+ CGPoint point = CGPointMake(brightnessCursorX * _controlFrame.size.width + _controlFrame.origin.x, _brightnessCursor.center.y);
+ _brightnessCursor.center = point;
+ _brightnessCursor.color = self.color;
+ }*/
+
     func update(tapPoint: CGPoint) {
         var tapPointInSlider = CGPoint(x: tapPoint.x - controlFrame.origin.x, y: tapPoint.y)
         tapPointInSlider.x = min(tapPointInSlider.x, controlFrame.size.width)
         tapPointInSlider.x = max(tapPointInSlider.x, 0)
 
         brightness = 1.0 - tapPointInSlider.x / controlFrame.size.width
+        brightness = brightness * (1.0 - self.brightnessLowerLimit) + brightnessLowerLimit
+
         sendActions(for: .valueChanged)
     }
 
     func updateCursor() {
-        let brightnessCursorX = 1.0 - brightness
+        let brightnessCursorX = (1.0 - (brightness - brightnessLowerLimit) / (1.0 - brightnessLowerLimit))
+        cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
         cursor.color = color
-        cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
-        cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
     }
 
-    override var alignmentRectInsets: UIEdgeInsets {
+    public override var alignmentRectInsets: UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     }
 
-    override func alignmentRect(forFrame frame: CGRect) -> CGRect {
+    public override func alignmentRect(forFrame frame: CGRect) -> CGRect {
         return frame.inset(by: self.alignmentRectInsets)
     }
 
-    override func frame(forAlignmentRect alignmentRect: CGRect) -> CGRect {
+    public override func frame(forAlignmentRect alignmentRect: CGRect) -> CGRect {
         return alignmentRect.inset(by: UIEdgeInsets(top: -10, left: -20, bottom: -10, right: -20))
     }
 

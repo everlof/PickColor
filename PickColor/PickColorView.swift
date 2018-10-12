@@ -40,12 +40,12 @@ public class PickColorView: UIView {
     }
 
     @objc func colorMapChangedColor() {
-        print("ColorMap => \(colorMapControl.color.hex)")
+//        print("ColorMap => \(colorMapControl.color.hex)")
         toolbarControl.color = colorMapControl.color
     }
 
     @objc func toolbarChangedColor() {
-        print("ColorToolbar => \(toolbarControl.color.hex)")
+//        print("ColorToolbar => \(toolbarControl.color.hex)")
         colorMapControl.color = toolbarControl.color
     }
 

@@ -14,7 +14,6 @@
 		C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B1216B832600146F3A /* ColorMapControl.swift */; };
 		C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */; };
 		C43E12E1216CCC3800146F3A /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* MarkerView.swift */; };
-		C43E12E3216CD89A00146F3A /* ToolbarColorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E2216CD89A00146F3A /* ToolbarColorControl.swift */; };
 		C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */; };
 		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 		C445EEAF216E250600851939 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEAE216E250600851939 /* ColorTextField.swift */; };
@@ -23,6 +22,7 @@
 		C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB5216E267400851939 /* CurrentColorView.swift */; };
 		C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */; };
 		C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEBB216E53EF00851939 /* HSVColor.swift */; };
+		C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,6 @@
 		C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C43E12D4216BCE8600146F3A /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Example.xcodeproj; path = PickColor/Example/Example/Example.xcodeproj; sourceTree = SOURCE_ROOT; };
 		C43E12E0216CCC3800146F3A /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
-		C43E12E2216CD89A00146F3A /* ToolbarColorControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarColorControl.swift; sourceTree = "<group>"; };
 		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 		C445EEAE216E250600851939 /* ColorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
@@ -63,6 +62,7 @@
 		C445EEB5216E267400851939 /* CurrentColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentColorView.swift; sourceTree = "<group>"; };
 		C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessSliderControl.swift; sourceTree = "<group>"; };
 		C445EEBB216E53EF00851939 /* HSVColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSVColor.swift; sourceTree = "<group>"; };
+		C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarColorControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,10 +129,10 @@
 			children = (
 				C445EEB0216E25BB00851939 /* CollectionView */,
 				C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */,
+				C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */,
 				C43E12B1216B832600146F3A /* ColorMapControl.swift */,
 				C445EEAE216E250600851939 /* ColorTextField.swift */,
 				C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */,
-				C43E12E2216CD89A00146F3A /* ToolbarColorControl.swift */,
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
 				C43E12E0216CCC3800146F3A /* MarkerView.swift */,
@@ -293,7 +293,7 @@
 			files = (
 				C43E12B0216B831400146F3A /* PickColorView.swift in Sources */,
 				C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */,
-				C43E12E3216CD89A00146F3A /* ToolbarColorControl.swift in Sources */,
+				C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
 				C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */,

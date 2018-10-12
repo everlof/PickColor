@@ -1,14 +1,22 @@
 import UIKit
 
+public protocol ToolbarColorControlDelegate: class {
+    func toolbarColorControl(_: ToolbarColorControl, didUpdateBrightness brightness: CGFloat)
+    func toolbarColorControl(_: ToolbarColorControl, didSelectRecentColor color: UIColor)
+    func toolbarColorControl(_: ToolbarColorControl, didManuallyEnterColor color: UIColor)
+}
+
 public class ToolbarColorControl: UIControl,
     RecentColorsCollectionViewDelegate,
     ColorTextFieldDelegate {
 
-    let currentColorView = CurrentColorView()
+    public weak var delegate: ToolbarColorControlDelegate?
 
-    let recentColorsCollectionView = RecentColorsCollectionView()
+    public let currentColorView = CurrentColorView()
 
-    let brightnessSlider: BrightnessSliderControl
+    public let recentColorsCollectionView = RecentColorsCollectionView()
+
+    public let brightnessSlider: BrightnessSliderControl
 
     public var hexFont: UIFont? {
         get {
@@ -19,7 +27,7 @@ public class ToolbarColorControl: UIControl,
         }
     }
 
-    var color: UIColor {
+    public var color: UIColor {
         didSet {
             currentColorView.color = color
             brightnessSlider.color = color
@@ -27,13 +35,13 @@ public class ToolbarColorControl: UIControl,
         }
     }
 
-    lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .prominent)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        return blurEffectView
-    }()
+//    lazy var blurEffectView: UIVisualEffectView = {
+//        let blurEffect = UIBlurEffect(style: .prominent)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        return blurEffectView
+//    }()
 
     public override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: currentColorView.intrinsicContentSize.height + 24)
@@ -83,18 +91,21 @@ public class ToolbarColorControl: UIControl,
         var hsv = HSVColor(uiColor: color)
         hsv.v = brightnessSlider.brightness
         color = hsv.uiColor
+        delegate?.toolbarColorControl(self, didUpdateBrightness: brightnessSlider.brightness)
     }
 
     // MARK: - RecentColorsCollectionViewDelegate
 
-    func didSelectRecent(color: UIColor) {
+    public func didSelectRecent(color: UIColor) {
         self.color = color
+        delegate?.toolbarColorControl(self, didSelectRecentColor: color)
     }
 
     // MARK: - ColorTextFieldDelegate
 
     func didInput(color: UIColor) {
         self.color = color
+        delegate?.toolbarColorControl(self, didManuallyEnterColor: color)
     }
 
 }

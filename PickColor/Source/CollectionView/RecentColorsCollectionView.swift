@@ -1,10 +1,10 @@
 import UIKit
 
-protocol RecentColorsCollectionViewDelegate: class {
+public protocol RecentColorsCollectionViewDelegate: class {
     func didSelectRecent(color: UIColor)
 }
 
-class RecentColorsCollectionView: UICollectionView,
+public class RecentColorsCollectionView: UICollectionView,
     UICollectionViewDelegate,
     UICollectionViewDataSource,
     RecentColorCollectionViewCellDelegate {
@@ -56,15 +56,15 @@ class RecentColorsCollectionView: UICollectionView,
         fatalError("init(coder:) has not been implemented")
     }
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    private func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentColorCollectionViewCell.identifier, for: indexPath) as! RecentColorCollectionViewCell
         cell.color = data[indexPath.row]
         cell.delegate = self
@@ -72,7 +72,7 @@ class RecentColorsCollectionView: UICollectionView,
     }
 
     // MARK: - RecentColorCollectionViewCellDelegate
-    func didSelectRecent(color: UIColor) {
+    public func didSelectRecent(color: UIColor) {
         recentColorDelegate?.didSelectRecent(color: color)
     }
 

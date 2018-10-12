@@ -1,6 +1,6 @@
 import UIKit
 
-class CurrentColorView: UIView {
+public class CurrentColorView: UIView {
 
     internal var color: UIColor = .red {
         didSet {
@@ -15,7 +15,7 @@ class CurrentColorView: UIView {
 
     internal let backgroundView = UIView()
 
-    override var intrinsicContentSize: CGSize {
+    public override var intrinsicContentSize: CGSize {
         return CGSize(width: 80, height: 120)
     }
 

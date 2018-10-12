@@ -4,7 +4,7 @@ public class ColorMapControl: UIControl {
 
     // MARK: - Static configuration
 
-    public static var defaultSaturationUpperLimit: CGFloat = 0.95
+    public static var defaultSaturationUpperLimit: CGFloat = 1.0
 
     // MARK: Public variables
 
@@ -227,6 +227,7 @@ public class ColorMapControl: UIControl {
 
     private func updateColorCursor() {
         let hsvColor = HSVColor(uiColor: color)
+        print("Update for color=\(color.hex), oldPosition=\(marker.center)")
 
         let nbrPixelsX = frame.size.width / tileSide
         let nbrPixelsY = frame.size.height / tileSide
@@ -237,10 +238,15 @@ public class ColorMapControl: UIControl {
             hue = 0
         }
 
-        newPosition.x = hue * nbrPixelsX * tileSide + tileSide / 2.0
-        newPosition.y = (1.0 - hsvColor.s) * (1.0 / saturationUpperLimit) * (nbrPixelsY - 1) * tileSide + tileSide / 2.0
+        print(hsvColor.h, hsvColor.s, hsvColor.v)
 
-        marker.center = newPosition
+        newPosition.x = hue * nbrPixelsX * tileSide + (tileSide / 2.0)
+        newPosition.y = (1.0 - hsvColor.s) * (1.0 / saturationUpperLimit) * (nbrPixelsY - 1) * tileSide + (tileSide / 2.0)
+
+        let cgPoint = CGPoint(x: CGFloat(Int(newPosition.x / tileSide)) * tileSide,
+                              y: CGFloat(Int(newPosition.y / tileSide)) * tileSide)
+
+        marker.center = cgPoint
     }
 
 }

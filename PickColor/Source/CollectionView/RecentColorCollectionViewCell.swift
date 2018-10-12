@@ -1,25 +1,25 @@
 import UIKit
 
-protocol RecentColorCollectionViewCellDelegate: class {
+public protocol RecentColorCollectionViewCellDelegate: class {
     func didSelectRecent(color: UIColor)
 }
 
-class RecentColorCollectionViewCell: UICollectionViewCell {
+public class RecentColorCollectionViewCell: UICollectionViewCell {
 
-    static let identifier = "RecentColorCollectionViewCell"
+    public static let identifier = "RecentColorCollectionViewCell"
 
-    weak var delegate: RecentColorCollectionViewCellDelegate?
+    public weak var delegate: RecentColorCollectionViewCellDelegate?
 
-    private var feedbackGenerator = UISelectionFeedbackGenerator()
-
-    let button = UIButton(type: .system)
-
-    var color: UIColor = .red {
+    public var color: UIColor = .red {
         didSet {
             backgroundColor = color
             layer.borderColor = color.withAlphaComponent(0.5).cgColor
         }
     }
+
+    private var feedbackGenerator = UISelectionFeedbackGenerator()
+
+    private let button = UIButton(type: .system)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,7 +38,11 @@ class RecentColorCollectionViewCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
     }
 
-    override func layoutSubviews() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override public func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height / 2
     }
@@ -47,10 +51,6 @@ class RecentColorCollectionViewCell: UICollectionViewCell {
         feedbackGenerator.prepare()
         feedbackGenerator.selectionChanged()
         delegate?.didSelectRecent(color: color)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
 }
