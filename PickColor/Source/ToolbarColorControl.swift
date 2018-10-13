@@ -83,7 +83,7 @@ public class ToolbarColorControl: UIControl,
         brightnessSlider.addTarget(self, action: #selector(brightnessChanged), for: .valueChanged)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -103,7 +103,7 @@ public class ToolbarColorControl: UIControl,
 
     // MARK: - ColorTextFieldDelegate
 
-    func didInput(color: UIColor) {
+    public func didInput(color: UIColor) {
         self.color = color
         delegate?.toolbarColorControl(self, didManuallyEnterColor: color)
     }

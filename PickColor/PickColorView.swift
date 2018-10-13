@@ -7,7 +7,7 @@ public class PickColorView: UIView {
     public let toolbarControl: ToolbarColorControl
 
     public init() {
-        let startColor = UIColor(hexString: "#357f4e")!
+        let startColor = UIColor(hexString: "#bfffa5")!
 
         colorMapControl = ColorMapControl(color: startColor)
         colorMapControl.translatesAutoresizingMaskIntoConstraints = false

@@ -1,12 +1,17 @@
 import UIKit
 
-protocol ColorTextFieldDelegate: class {
+public protocol ColorTextFieldDelegate: class {
     func didInput(color: UIColor)
 }
 
-class ColorTextField: UITextField, UITextFieldDelegate {
+public class ColorTextField: UITextField, UITextFieldDelegate {
 
-    weak var colorTextFieldDelegate: ColorTextFieldDelegate?
+    public weak var colorTextFieldDelegate: ColorTextFieldDelegate?
+
+    public override var intrinsicContentSize: CGSize {
+        let superSize = super.intrinsicContentSize
+        return CGSize(width: superSize.width, height: superSize.height + 18)
+    }
 
     // For when entering something that is NOT a HEX-Color.
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
@@ -15,21 +20,16 @@ class ColorTextField: UITextField, UITextFieldDelegate {
     // we'll revert to this value.
     private var prevText: String?
 
-    override var intrinsicContentSize: CGSize {
-        let superSize = super.intrinsicContentSize
-        return CGSize(width: superSize.width, height: superSize.height + 18)
-    }
-
-    init() {
+    public init() {
         super.init(frame: .zero)
         delegate = self
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = text, let color = UIColor(hexString: text) {
             colorTextFieldDelegate?.didInput(color: color)
         } else {
@@ -46,13 +46,13 @@ class ColorTextField: UITextField, UITextFieldDelegate {
         return false
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let currentText = textField.text as NSString? else { return false }
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.first == "#" ? newText.count <= 7 : newText.count <= 6
     }
 
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    private func textFieldDidBeginEditing(_ textField: UITextField) {
         prevText = text
     }
 
