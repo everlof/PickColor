@@ -83,11 +83,21 @@ public class ColorMapControl: UIControl {
 
     private var hsv: HSVColor {
         didSet {
-            if oldValue.h != hsv.h {
+            let hueUpdated = oldValue.h != hsv.h
+            let saturationAndValueUpdated = oldValue.s != hsv.s || oldValue.v != hsv.v
+
+            if hueUpdated {
                 updateColorMap()
+                if !saturationAndValueUpdated {
+                    // If we only updated Hue (most likely from
+                    // the hue slider), we must update the marker
+                    // here, because `updateMarker` won't be
+                    // called when `saturationAndValueUpdated` is `false`.
+                    marker.color = hsv.uiColor
+                }
             }
 
-            if oldValue.s != hsv.s || oldValue.v != hsv.v {
+            if saturationAndValueUpdated {
                 updateMarker()
                 sendActions(for: .valueChanged)
             }
