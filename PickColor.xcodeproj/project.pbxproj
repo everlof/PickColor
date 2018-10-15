@@ -18,7 +18,6 @@
 		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 		C445EEAF216E250600851939 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEAE216E250600851939 /* ColorTextField.swift */; };
 		C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */; };
-		C445EEB4216E264B00851939 /* ControlBoardScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */; };
 		C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB5216E267400851939 /* CurrentColorView.swift */; };
 		C445EEB8216E277B00851939 /* HueSliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB7216E277B00851939 /* HueSliderControl.swift */; };
 		C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEBB216E53EF00851939 /* HSVColor.swift */; };
@@ -61,7 +60,6 @@
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 		C445EEAE216E250600851939 /* ColorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
 		C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorCollectionViewCell.swift; sourceTree = "<group>"; };
-		C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlBoardScrollView.swift; sourceTree = "<group>"; };
 		C445EEB5216E267400851939 /* CurrentColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentColorView.swift; sourceTree = "<group>"; };
 		C445EEB7216E277B00851939 /* HueSliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControl.swift; sourceTree = "<group>"; };
 		C445EEBB216E53EF00851939 /* HSVColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSVColor.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */,
 				C43E12B1216B832600146F3A /* ColorMapControl.swift */,
 				C445EEAE216E250600851939 /* ColorTextField.swift */,
-				C445EEB3216E264B00851939 /* ControlBoardScrollView.swift */,
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
 				C43E12E0216CCC3800146F3A /* MarkerView.swift */,
@@ -321,7 +318,6 @@
 				C43E12E1216CCC3800146F3A /* MarkerView.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,
 				C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */,
-				C445EEB4216E264B00851939 /* ControlBoardScrollView.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,
 				C445EEAF216E250600851939 /* ColorTextField.swift in Sources */,
 			);
