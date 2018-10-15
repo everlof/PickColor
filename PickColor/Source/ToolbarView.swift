@@ -1,16 +1,16 @@
 import UIKit
 
-public protocol ToolbarColorControlDelegate: class {
-    func toolbarColorControl(_: ToolbarColorControl, didUpdateHue hue: CGFloat)
-    func toolbarColorControl(_: ToolbarColorControl, didSelectRecentColor color: UIColor)
-    func toolbarColorControl(_: ToolbarColorControl, didManuallyEnterColor color: UIColor)
+public protocol ToolbarViewDelegate: class {
+    func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat)
+    func toolbarView(_: ToolbarView, didSelectRecentColor color: UIColor)
+    func toolbarView(_: ToolbarView, didManuallyEnterColor color: UIColor)
 }
 
-public class ToolbarColorControl: UIControl,
+public class ToolbarView: UIView,
     RecentColorsCollectionViewDelegate,
     ColorTextFieldDelegate {
 
-    public weak var delegate: ToolbarColorControlDelegate?
+    public weak var delegate: ToolbarViewDelegate?
 
     public let currentColorView = CurrentColorView()
 
@@ -36,7 +36,6 @@ public class ToolbarColorControl: UIControl,
         didSet {
             if oldValue != hsv {
                 currentColorView.color = hsv.uiColor
-                sendActions(for: .valueChanged)
             }
         }
     }
@@ -94,21 +93,21 @@ public class ToolbarColorControl: UIControl,
 
     @objc private func hueChanged() {
         hsv.h = hueSlider.hue
-        delegate?.toolbarColorControl(self, didUpdateHue: hueSlider.hue)
+        delegate?.toolbarView(self, didUpdateHue: hueSlider.hue)
     }
 
     // MARK: - RecentColorsCollectionViewDelegate
 
     public func didSelectRecent(color: UIColor) {
         hsv = HSVColor(uiColor: color)
-        delegate?.toolbarColorControl(self, didSelectRecentColor: color)
+        delegate?.toolbarView(self, didSelectRecentColor: color)
     }
 
     // MARK: - ColorTextFieldDelegate
 
     public func didInput(color: UIColor) {
         hsv = HSVColor(uiColor: color)
-        delegate?.toolbarColorControl(self, didManuallyEnterColor: color)
+        delegate?.toolbarView(self, didManuallyEnterColor: color)
     }
 
 }

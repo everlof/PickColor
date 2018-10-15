@@ -1,10 +1,10 @@
 import Foundation
 
-public class PickColorView: UIView, ToolbarColorControlDelegate {
+public class PickColorView: UIView, ToolbarViewDelegate {
 
     public let colorMapControl: ColorMapControl
 
-    public let toolbarControl: ToolbarColorControl
+    public let toolbarControl: ToolbarView
 
     public var selectedColor: UIColor {
         return toolbarControl.selectedColor
@@ -16,7 +16,7 @@ public class PickColorView: UIView, ToolbarColorControlDelegate {
         colorMapControl = ColorMapControl(color: startColor)
         colorMapControl.translatesAutoresizingMaskIntoConstraints = false
 
-        toolbarControl = ToolbarColorControl(selectedColor: startColor)
+        toolbarControl = ToolbarView(selectedColor: startColor)
         toolbarControl.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
@@ -47,17 +47,17 @@ public class PickColorView: UIView, ToolbarColorControlDelegate {
         toolbarControl.selectedColor = colorMapControl.color
     }
 
-    // MARK: - ToolbarColorControlDelegate
+    // MARK: - ToolbarViewDelegate
 
-    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didUpdateHue hue: CGFloat) {
+    public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
         colorMapControl.hue = hue
     }
 
-    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didSelectRecentColor color: UIColor) {
+    public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {
         colorMapControl.color = color
     }
 
-    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didManuallyEnterColor color: UIColor) {
+    public func toolbarView(_ toolbarView: ToolbarView, didManuallyEnterColor color: UIColor) {
         colorMapControl.color = color
     }
 
