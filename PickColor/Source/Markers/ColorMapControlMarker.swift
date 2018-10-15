@@ -14,21 +14,15 @@ public class ColorMapControlMarker: UIView {
 
     /// The diagonal of `self`.
     public var diagonal = ColorMapControlMarker.defaultDiagonal {
-        didSet {
-            size = CGSize(width: diagonal, height: diagonal)
-        }
+        didSet { size = CGSize(width: diagonal, height: diagonal) }
     }
 
     public var borderWidth = ColorMapControlMarker.defaultBorderWidth {
-        didSet {
-            update(animated: true)
-        }
+        didSet { update(animated: true) }
     }
 
     public var editingMagnification: CGFloat = ColorMapControlMarker.defaultEditingMagnification {
-        didSet {
-            update(animated: true)
-        }
+        didSet { update(animated: true) }
     }
 
     public var circleBoarderColor = UIColor(white: 0.65, alpha: 1.0) {
@@ -38,21 +32,15 @@ public class ColorMapControlMarker: UIView {
     }
 
     public var circleColor = UIColor(white: 1.0, alpha: 0.7) {
-        didSet {
-            backLayer.backgroundColor = circleColor.cgColor
-        }
+        didSet { backLayer.backgroundColor = circleColor.cgColor }
     }
 
     public var editing: Bool = false {
-        didSet {
-            update(animated: true)
-        }
+        didSet { update(animated: true) }
     }
 
     public var color: UIColor {
-        didSet {
-            update(animated: true)
-        }
+        didSet { update(animated: true) }
     }
 
     // MARK: - Private variables
