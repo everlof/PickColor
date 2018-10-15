@@ -2,14 +2,12 @@ import Foundation
 
 public class BrightnessSliderControl: UIControl {
 
-    public static var defaultBrightnessLowerLimit: CGFloat = 0.05
-
     // MARK: - Public variables
 
     public var color: UIColor {
         get {
             var hsv = HSVColor(uiColor: _color)
-            hsv.v = brightness
+            hsv.h = hue
             return hsv.uiColor
         }
         set {
@@ -17,9 +15,7 @@ public class BrightnessSliderControl: UIControl {
         }
     }
 
-    public var brightness: CGFloat = 0.5
-
-    public var brightnessLowerLimit: CGFloat = BrightnessSliderControl.defaultBrightnessLowerLimit
+    public var hue: CGFloat
 
     // MARK: - Private variables
 
@@ -46,6 +42,7 @@ public class BrightnessSliderControl: UIControl {
     public init(color: UIColor) {
         self.cursor = MarkerView(color: color)
         self._color = color
+        self.hue = HSVColor(uiColor: self._color).h
         super.init(frame: .zero)
         set(color: self.color)
         sliderLayer.startPoint = CGPoint(x: 0, y: 0.5)
@@ -77,19 +74,17 @@ public class BrightnessSliderControl: UIControl {
         controlFrame = renderingFrame.insetBy(dx: 8, dy: 0)
         sliderLayer.frame = renderingFrame
         sliderLayer.cornerRadius = renderingFrame.size.height / 2
+        sliderLayer.colors = stride(from: 0, to: 1, by: 0.1).map {
+            UIColor(hue: $0, saturation: 1.0, brightness: 1.0, alpha: 1.0).cgColor
+        }
         updateCursor()
     }
 
     private func set(color: UIColor) {
-        _color = color
-        let hsv = HSVColor(uiColor: color)
-        self.brightness = hsv.v
+        var hsv = HSVColor(uiColor: color)
+        hsv.h = hue
+        _color = hsv.uiColor
         updateCursor()
-
-        let darkColorFromHSV = UIColor(hue: hsv.h, saturation: hsv.s, brightness: brightnessLowerLimit, alpha: 1.0)
-        let lightColorFromHSV = UIColor(hue: hsv.h, saturation: hsv.s, brightness: 1.0, alpha: 1.0)
-
-        sliderLayer.colors = [ lightColorFromHSV.cgColor, darkColorFromHSV.cgColor ]
     }
 
     @objc func handleTap(gesture: UITapGestureRecognizer) {
@@ -122,44 +117,16 @@ public class BrightnessSliderControl: UIControl {
         }
     }
 
-    /*
- - (void)update:(CGPoint)tapPoint {
- CGFloat selectedBrightness = 0;
- CGPoint tapPointInSlider = CGPointMake(tapPoint.x - _controlFrame.origin.x, tapPoint.y);
- tapPointInSlider.x = MIN(tapPointInSlider.x, _controlFrame.size.width);
- tapPointInSlider.x = MAX(tapPointInSlider.x, 0);
-
- selectedBrightness = 1.0 - tapPointInSlider.x / _controlFrame.size.width;
- selectedBrightness = selectedBrightness * (1.0 - self.brightnessLowerLimit.floatValue) + self.brightnessLowerLimit.floatValue;
- _brightness = @(selectedBrightness);
-
- [self sendActionsForControlEvents:UIControlEventValueChanged];
- }
-
- - (void)updateCursor {
- CGFloat brightnessCursorX = (1.0f - (self.brightness.floatValue - self.brightnessLowerLimit.floatValue) / (1.0f - self.brightnessLowerLimit.floatValue));
- if (brightnessCursorX < 0) {
- return;
- }
- CGPoint point = CGPointMake(brightnessCursorX * _controlFrame.size.width + _controlFrame.origin.x, _brightnessCursor.center.y);
- _brightnessCursor.center = point;
- _brightnessCursor.color = self.color;
- }*/
-
     func update(tapPoint: CGPoint) {
         var tapPointInSlider = CGPoint(x: tapPoint.x - controlFrame.origin.x, y: tapPoint.y)
         tapPointInSlider.x = min(tapPointInSlider.x, controlFrame.size.width)
         tapPointInSlider.x = max(tapPointInSlider.x, 0)
-
-        brightness = 1.0 - tapPointInSlider.x / controlFrame.size.width
-        brightness = brightness * (1.0 - self.brightnessLowerLimit) + brightnessLowerLimit
-
+        hue = tapPointInSlider.x / controlFrame.size.width
         sendActions(for: .valueChanged)
     }
 
     func updateCursor() {
-        let brightnessCursorX = (1.0 - (brightness - brightnessLowerLimit) / (1.0 - brightnessLowerLimit))
-        cursor.center = CGPoint(x: brightnessCursorX * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
+        cursor.center = CGPoint(x: hue * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
         cursor.color = color
     }
 

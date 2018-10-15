@@ -23,6 +23,9 @@
 		C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */; };
 		C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEBB216E53EF00851939 /* HSVColor.swift */; };
 		C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */; };
+		C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF2217228B300851939 /* SKTimingFunction.swift */; };
+		C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF4217397DD00851939 /* PlusMarkerView.swift */; };
+		C445EEF721739E0C00851939 /* MarkerViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF621739E0C00851939 /* MarkerViewV2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,9 @@
 		C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessSliderControl.swift; sourceTree = "<group>"; };
 		C445EEBB216E53EF00851939 /* HSVColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSVColor.swift; sourceTree = "<group>"; };
 		C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarColorControl.swift; sourceTree = "<group>"; };
+		C445EEF2217228B300851939 /* SKTimingFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTimingFunction.swift; sourceTree = "<group>"; };
+		C445EEF4217397DD00851939 /* PlusMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMarkerView.swift; sourceTree = "<group>"; };
+		C445EEF621739E0C00851939 /* MarkerViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViewV2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +133,7 @@
 		C43E12AE216B830400146F3A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C445EEEC2172254000851939 /* Bezier */,
 				C445EEB0216E25BB00851939 /* CollectionView */,
 				C445EEB7216E277B00851939 /* BrightnessSliderControl.swift */,
 				C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */,
@@ -136,6 +143,8 @@
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
 				C43E12E0216CCC3800146F3A /* MarkerView.swift */,
+				C445EEF4217397DD00851939 /* PlusMarkerView.swift */,
+				C445EEF621739E0C00851939 /* MarkerViewV2.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -164,6 +173,14 @@
 				C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */,
 			);
 			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		C445EEEC2172254000851939 /* Bezier */ = {
+			isa = PBXGroup;
+			children = (
+				C445EEF2217228B300851939 /* SKTimingFunction.swift */,
+			);
+			path = Bezier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,14 +310,17 @@
 			files = (
 				C43E12B0216B831400146F3A /* PickColorView.swift in Sources */,
 				C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */,
+				C445EEF721739E0C00851939 /* MarkerViewV2.swift in Sources */,
 				C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
 				C445EEB8216E277B00851939 /* BrightnessSliderControl.swift in Sources */,
 				C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */,
 				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
+				C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */,
 				C43E12E1216CCC3800146F3A /* MarkerView.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,
+				C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */,
 				C445EEB4216E264B00851939 /* ControlBoardScrollView.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,
 				C445EEAF216E250600851939 /* ColorTextField.swift in Sources */,
@@ -469,6 +489,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.everlof.PickColor;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -496,6 +517,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.everlof.PickColor;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

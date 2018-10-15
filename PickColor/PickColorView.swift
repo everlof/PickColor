@@ -28,7 +28,7 @@ public class PickColorView: UIView {
         colorMapControl.topAnchor.constraint(equalTo: toolbarControl.bottomAnchor).isActive = true
 
         colorMapControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+//        colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
         colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
@@ -46,7 +46,7 @@ public class PickColorView: UIView {
 
     @objc func toolbarChangedColor() {
 //        print("ColorToolbar => \(toolbarControl.color.hex)")
-        colorMapControl.color = toolbarControl.color
+//        colorMapControl.color = toolbarControl.color
     }
 
 }

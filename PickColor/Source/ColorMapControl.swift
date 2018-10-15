@@ -2,51 +2,87 @@ import UIKit
 
 public class ColorMapControl: UIControl {
 
-    // MARK: - Static configuration
+    // MARK: Static variables
 
-    public static var defaultSaturationUpperLimit: CGFloat = 1.0
+    /// This sets the timing function for "value" for all created `ColorMapControl`s
+    /// See members documentation for `valueTimingFunction` for a longer description.
+    public static var defaultValueTimingFunction: SKTimingFunction? = SKTimingFunction(controlPoints: 0.6, 0.96, 0.61, 1.0)
+
+    /// This sets the timing function for "saturation" for all created `ColorMapControl`s
+    /// See members documentation for `saturationTimingFunction` for a longer description.
+    public static var defaultSaturationTimingFunction: SKTimingFunction? = nil
 
     // MARK: Public variables
 
-    public let marker: MarkerView
+    /// This sets the function used to calculate the value of `value` as the
+    /// gradient color fades from y=0 to y=frame.height.
+    ///
+    /// Use http://cubic-bezier.com to play with the control-points to find a good value
+    /// if you're not satisfied with the default ones provided by that library.
+    public var valueTimingFunction: SKTimingFunction? = ColorMapControl.defaultValueTimingFunction
 
+    /// This sets the function used to calculate the value of `saturation` as the
+    /// gradient color fades from x=0 to x=frame.width.
+    ///
+    /// Use http://cubic-bezier.com to play with the control-points to find a good value
+    /// if you're not satisfied with the default ones provided by that library.
+    public var saturationTimingFunction: SKTimingFunction? = ColorMapControl.defaultSaturationTimingFunction
+
+    /// The color that is currently selected.
+    /// This is evaluated using the current "hue" and the values
+    /// of "value" and "saturation" (which depends on the markers position).
     public var color: UIColor {
-        didSet {
-            if oldValue != color {
-                brightness = HSVColor(uiColor: color).v
-                updateColorCursor()
-                marker.color = color
-                sendActions(for: .valueChanged)
-            }
-        }
+        return HSVColor(h: hsv.hue, s: hsv.saturation, v: hsv.value).uiColor
     }
 
-    public var brightness: CGFloat {
-        didSet {
-            if brightness != oldValue {
-                var hsv = HSVColor(uiColor: color)
-                hsv.v = brightness
-                color = hsv.uiColor
-                updateBrightness()
-            }
-        }
+    /// The "hue" of the whole color map, changing this value
+    /// will result in the whole map being redrawn with the new hue.
+    ///
+    /// A value in the range 0 - 1
+    public var hue: CGFloat {
+        get { return hsv.hue }
+        set { hsv.hue = newValue }
     }
 
+    /// The "saturation" of the color map. This is the saturation
+    /// that is currently selected by the marker in the view.
+    ///
+    /// A value in the range 0 - 1
+    public var saturation: CGFloat {
+        get { return hsv.saturation }
+        set { hsv.saturation = newValue }
+    }
+
+    /// The "value" of the color map. This is the value
+    /// that is currently selected by the marker in the view.
+    ///
+    /// A a value in the range 0 - 1
+    public var value: CGFloat {
+        get { return hsv.value }
+        set { hsv.value = newValue }
+    }
+    
     // MARK: Private variables
+
+    private var hsv: (hue: CGFloat, saturation: CGFloat, value: CGFloat) {
+        didSet {
+            if oldValue.hue != hsv.hue {
+                updateColorMap()
+            }
+
+            if oldValue.saturation != hsv.saturation || oldValue.value != hsv.value {
+                updateMarker()
+            }
+        }
+    }
+
+    private let marker: MarkerViewV2
 
     private let feedbackGenerator = UISelectionFeedbackGenerator()
 
     private var colorMapLayer: CALayer!
 
-    private var colorMapImage: UIImage
-
-    private var colorMapBackgroundLayer: CALayer!
-
-    private var backgroundImage: UIImage
-
-    private var boundsObserver: NSKeyValueObservation!
-
-    private let saturationUpperLimit = ColorMapControl.defaultSaturationUpperLimit
+    private var colorMapImage: UIImage!
 
     private let panGestureRecognizer = UIPanGestureRecognizer()
 
@@ -54,46 +90,19 @@ public class ColorMapControl: UIControl {
 
     private let tileSide: CGFloat
 
-    private var size: CGSize {
-        didSet {
-            if oldValue != size {
-                didChangeSize()
-            }
-        }
-    }
+    private var prevSize: CGSize?
 
     public init(color: UIColor, tileSide: CGFloat = 1) {
-        self.color = color
-        self.brightness = HSVColor(uiColor: color).v
-        self.marker = MarkerView(color: color)
+        let hsv = HSVColor(uiColor: color)
+        self.hsv = (hsv.h, hsv.s, hsv.v)
+        self.marker = MarkerViewV2(color: color)
         self.tileSide = tileSide
-
-        // Need something != .zero, since image-rendring functions below don't like
-        // to create images of with `width` or `height` 0.
-        // After auto-layout has done its job, we'll listen to the resizing
-        // and regenrate the images
-
-        self.size = CGSize(width: 1, height: 1)
-
-        // Setup colors maps
-        colorMapImage = ColorMapControl.colorMap(with: self.size,
-                                                 and: tileSide,
-                                                 saturationUpperLimit: saturationUpperLimit)
-
-        backgroundImage = ColorMapControl.backgroundColorMap(with: self.size, and: tileSide)
 
         super.init(frame: .zero)
 
         // Setup layers
         colorMapLayer = CALayer(layer: self.layer)
-        colorMapBackgroundLayer = CALayer(layer: self.layer)
-        layer.insertSublayer(colorMapBackgroundLayer, at: 0)
-        layer.insertSublayer(colorMapLayer, at: 1)
-
-        // Observe changing size
-        boundsObserver = observe(\.bounds, changeHandler: { (observing, change) in
-            self.size = self.bounds.size
-        })
+        layer.insertSublayer(colorMapLayer, at: 0)
 
         // Setup gesture recognizers
         addGestureRecognizer(panGestureRecognizer)
@@ -104,26 +113,41 @@ public class ColorMapControl: UIControl {
 
         // Add subview
         addSubview(marker)
-
-        // Update UI according to model (color + brightness)
-        updateBrightness()
-        updateColorCursor()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func updateBrightness() {
-        CATransaction.begin()
-        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        colorMapLayer.opacity = Float(brightness)
-        CATransaction.commit()
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let update = {
+            self.updateColorMap()
+            self.updateMarker()
+        }
+
+        if let prevSize = prevSize, prevSize != frame.size {
+            update()
+        } else if prevSize == nil {
+            // If we have no previous size, our `hsv` is correct, but
+            // we have never rendered the marker, so we must update the marker
+            // with a position corresponding to our current `hsv`
+            marker.center = point(from: HSVColor(h: hsv.hue, s: hsv.saturation, v: hsv.value).uiColor, in: frame)
+            update()
+        }
+
+        prevSize = frame.size
+    }
+
+    public override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIView.noIntrinsicMetric, height: 200)
     }
 
     @objc private func didTap(gesture: UITapGestureRecognizer) {
         feedbackGenerator.prepare()
-        updateSelection(point: gesture.location(in: self), isEnding: true)
+        marker.center = gesture.location(in: self)
+        updateMarker()
         feedbackGenerator.selectionChanged()
     }
 
@@ -137,116 +161,85 @@ public class ColorMapControl: UIControl {
             var location = gesture.location(in: self)
             location.x = min(max(0, location.x), frame.size.width)
             location.y = min(max(0, location.y), frame.size.height)
-            updateSelection(point: location, isEnding: gesture.state == .ended)
-            updateColorCursor()
+            marker.center = location
+            marker.editing = gesture.state != .ended
+            updateMarker()
         }
     }
 
-    private func updateSelection(point: CGPoint, isEnding: Bool) {
-        let pixelCountX = Int(frame.size.width / tileSide)
-        let pixelCountY = Int(frame.size.height / tileSide)
-
-        let pixelX = (point.x / tileSide) / CGFloat(pixelCountX)
-        let pixelY = (point.y / tileSide) / CGFloat(pixelCountY - 1)
-
-        let color = HSVColor(h: pixelX, s: 1.0 - (pixelY * saturationUpperLimit), v: brightness)
-        self.color = color.uiColor
-
-        marker.color = color.uiColor
-        marker.center = point
-        marker.editing = !isEnding
+    private func updateColorMap() {
+        colorMap(with: frame.size, and: tileSide, hue: hsv.hue, done: { image in
+            self.colorMapImage = image
+            self.colorMapLayer.frame = CGRect(origin: .zero, size: image.size)
+            self.colorMapLayer.contents = image.cgImage
+        })
     }
 
-    private func didChangeSize() {
-        guard size != .zero else { return }
-        colorMapImage = ColorMapControl.colorMap(with: frame.size, and: tileSide, saturationUpperLimit: saturationUpperLimit)
-        backgroundImage = ColorMapControl.backgroundColorMap(with: frame.size, and: tileSide)
-
-        colorMapLayer.frame = CGRect(origin: .zero, size: colorMapImage.size)
-        colorMapLayer.contents = colorMapImage.cgImage
-
-        colorMapBackgroundLayer.frame = CGRect(origin: .zero, size: backgroundImage.size)
-        colorMapBackgroundLayer.contents = backgroundImage.cgImage
-
-        updateColorCursor()
+    private func updateMarker() {
+        let hsv = hsvFrom(point: marker.center, in: frame, withHue: self.hsv.hue)
+        self.hsv = (hsv.h, hsv.s, hsv.v)
+        marker.color = hsv.uiColor
     }
 
-    private static func colorMap(with size: CGSize, and tileSide: CGFloat, saturationUpperLimit: CGFloat) -> UIImage {
-        let nbrPixelsX = size.width / tileSide
-        let nbrPixelsY = size.height / tileSide
-        let colorMapSize = CGSize(width: nbrPixelsX * tileSide, height: nbrPixelsY * tileSide)
+    // MARK: - Static functions
 
-        let renderToContext: ((CGContext, CGRect) -> Void) = { context, rect in
-            var pixelHSV = HSVColor(h: 1, s: 1, v: 1)
-            for i in stride(from: 0, to: nbrPixelsX, by: 1) {
-                let pixelX = CGFloat(i) / nbrPixelsX
-                pixelHSV.h = pixelX
-                context.setFillColor(pixelHSV.uiColor.cgColor)
-                context.fill(CGRect(x: tileSide * i + rect.origin.x, y: rect.origin.y, width: tileSide, height: rect.height))
-            }
+    private func colorMap(with size: CGSize, and tileSide: CGFloat, hue: CGFloat, done: @escaping ((UIImage) -> Void)) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let start = Date()
+            let nbrPixelsX = size.width / tileSide
+            let nbrPixelsY = size.height / tileSide
 
-            var top: CGFloat = 0
-            for j in stride(from: 0, to: nbrPixelsY, by: 1) {
-                top = tileSide * j + rect.origin.y
-                let pixelY = CGFloat(j) / (nbrPixelsY - 1)
-                let alpha = (pixelY * saturationUpperLimit)
-                context.setFillColor(red: 1, green: 1, blue: 1, alpha: alpha)
-                context.fill(CGRect(x: rect.origin.x, y: top, width: rect.width, height: tileSide))
-            }
-        }
+            var image: UIImage! = nil
 
-        return UIImage.renderImage(with: colorMapSize, renderer: renderToContext)
-    }
+            UIGraphicsBeginImageContextWithOptions(size, true, 0)
+            let context = UIGraphicsGetCurrentContext()!
+            let imageRect = CGRect(origin: .zero, size: size)
 
-    private static func backgroundColorMap(with size: CGSize, and tileSide: CGFloat) -> UIImage {
-        let nbrPixelsX = size.width / tileSide
-        let nbrPixelsY = size.height / tileSide
+            var hsvColor = HSVColor(h: hue, s: 0, v: 0)
+            for y in stride(from: 0, to: nbrPixelsY, by: 1) {
+                let v =  1 - (y / nbrPixelsY)
+                hsvColor.v = self.valueTimingFunction?.get(t: v) ?? v
 
-        let colorMapSize = CGSize(width: nbrPixelsX * tileSide, height: nbrPixelsY * tileSide)
+                for x in stride(from: 0, to: nbrPixelsX, by: 1) {
+                    let s = x / nbrPixelsX
+                    hsvColor.s = self.saturationTimingFunction?.get(t: s) ?? s
 
-        let renderToContext: ((CGContext, CGRect) -> Void) = { context, rect in
-            context.setFillColor(UIColor.white.cgColor)
-            context.fill(rect)
-
-            var height: CGFloat = 0
-            context.setFillColor(gray: 0.0, alpha: 1.0)
-
-            for j in stride(from: 0, to: nbrPixelsY, by: 1) {
-                height = tileSide * j + rect.origin.y
-                for i in stride(from: 0, to: nbrPixelsX, by: 1) {
-                    context.fill(CGRect(x: tileSide * i + rect.origin.x,
-                                        y: height,
+                    context.setFillColor(hsvColor.uiColor.cgColor)
+                    context.fill(CGRect(x: tileSide * x + imageRect.origin.x,
+                                        y: tileSide * y + imageRect.origin.y,
                                         width: tileSide,
                                         height: tileSide))
                 }
             }
-        }
 
-        return UIImage.renderImage(with: colorMapSize, renderer: renderToContext)
+            image = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+
+            let end = Date()
+
+            print("Render time: \(end.timeIntervalSince(start))")
+
+            DispatchQueue.main.async {
+                done(image)
+            }
+        }
     }
 
-    private func updateColorCursor() {
-        let hsvColor = HSVColor(uiColor: color)
-        print("Update for color=\(color.hex), oldPosition=\(marker.center)")
+    private func hsvFrom(point: CGPoint, in rect: CGRect, withHue hue: CGFloat) -> HSVColor {
+        var hsv = HSVColor()
+        hsv.h = hue
+        let noramlizedX = point.x / rect.width
+        let normalizedY = 1 - (point.y / rect.height) // Low -> dark, thus invert
+        hsv.s = saturationTimingFunction?.get(t: noramlizedX) ?? noramlizedX
+        hsv.v = valueTimingFunction?.get(t: normalizedY) ?? normalizedY
+        return hsv
+    }
 
-        let nbrPixelsX = frame.size.width / tileSide
-        let nbrPixelsY = frame.size.height / tileSide
-
-        var newPosition: CGPoint = .zero
-        var hue = hsvColor.h
-        if hue == 1 {
-            hue = 0
-        }
-
-        print(hsvColor.h, hsvColor.s, hsvColor.v)
-
-        newPosition.x = hue * nbrPixelsX * tileSide + (tileSide / 2.0)
-        newPosition.y = (1.0 - hsvColor.s) * (1.0 / saturationUpperLimit) * (nbrPixelsY - 1) * tileSide + (tileSide / 2.0)
-
-        let cgPoint = CGPoint(x: CGFloat(Int(newPosition.x / tileSide)) * tileSide,
-                              y: CGFloat(Int(newPosition.y / tileSide)) * tileSide)
-
-        marker.center = cgPoint
+    private func point(from color: UIColor, in rect: CGRect) -> CGPoint {
+        let hsv = HSVColor(uiColor: color)
+        let normalizedX = saturationTimingFunction?.t(for: hsv.s) ?? hsv.s
+        let normalizedY = valueTimingFunction?.t(for: (1 - hsv.v)) ?? (1 - hsv.v)
+        return CGPoint(x: normalizedX * rect.width, y: normalizedY * rect.height)
     }
 
 }

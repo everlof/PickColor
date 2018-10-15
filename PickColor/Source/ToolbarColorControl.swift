@@ -80,18 +80,18 @@ public class ToolbarColorControl: UIControl,
         brightnessSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
         brightnessSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
 
-        brightnessSlider.addTarget(self, action: #selector(brightnessChanged), for: .valueChanged)
+        brightnessSlider.addTarget(self, action: #selector(hueChanged), for: .valueChanged)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func brightnessChanged() {
+    @objc private func hueChanged() {
         var hsv = HSVColor(uiColor: color)
-        hsv.v = brightnessSlider.brightness
+        hsv.h = brightnessSlider.hue
         color = hsv.uiColor
-        delegate?.toolbarColorControl(self, didUpdateBrightness: brightnessSlider.brightness)
+        delegate?.toolbarColorControl(self, didUpdateBrightness: hsv.h)
     }
 
     // MARK: - RecentColorsCollectionViewDelegate
