@@ -13,7 +13,7 @@
 		C43E12B0216B831400146F3A /* PickColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12AF216B831400146F3A /* PickColorView.swift */; };
 		C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B1216B832600146F3A /* ColorMapControl.swift */; };
 		C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */; };
-		C43E12E1216CCC3800146F3A /* MarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* MarkerView.swift */; };
+		C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */; };
 		C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */; };
 		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 		C445EEAF216E250600851939 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEAE216E250600851939 /* ColorTextField.swift */; };
@@ -24,7 +24,7 @@
 		C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */; };
 		C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF2217228B300851939 /* SKTimingFunction.swift */; };
 		C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF4217397DD00851939 /* PlusMarkerView.swift */; };
-		C445EEF721739E0C00851939 /* MarkerViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF621739E0C00851939 /* MarkerViewV2.swift */; };
+		C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,7 @@
 		C43E12B1216B832600146F3A /* ColorMapControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControl.swift; sourceTree = "<group>"; };
 		C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C43E12D4216BCE8600146F3A /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Example.xcodeproj; path = PickColor/Example/Example/Example.xcodeproj; sourceTree = SOURCE_ROOT; };
-		C43E12E0216CCC3800146F3A /* MarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerView.swift; sourceTree = "<group>"; };
+		C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControlMarker.swift; sourceTree = "<group>"; };
 		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 		C445EEAE216E250600851939 /* ColorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 		C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarColorControl.swift; sourceTree = "<group>"; };
 		C445EEF2217228B300851939 /* SKTimingFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTimingFunction.swift; sourceTree = "<group>"; };
 		C445EEF4217397DD00851939 /* PlusMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMarkerView.swift; sourceTree = "<group>"; };
-		C445EEF621739E0C00851939 /* MarkerViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerViewV2.swift; sourceTree = "<group>"; };
+		C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControlMarker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,9 +139,9 @@
 				C445EEAE216E250600851939 /* ColorTextField.swift */,
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
-				C43E12E0216CCC3800146F3A /* MarkerView.swift */,
+				C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */,
 				C445EEF4217397DD00851939 /* PlusMarkerView.swift */,
-				C445EEF621739E0C00851939 /* MarkerViewV2.swift */,
+				C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -307,7 +307,7 @@
 			files = (
 				C43E12B0216B831400146F3A /* PickColorView.swift in Sources */,
 				C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */,
-				C445EEF721739E0C00851939 /* MarkerViewV2.swift in Sources */,
+				C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */,
 				C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
@@ -315,7 +315,7 @@
 				C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */,
 				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
 				C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */,
-				C43E12E1216CCC3800146F3A /* MarkerView.swift in Sources */,
+				C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,
 				C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,

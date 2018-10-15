@@ -94,7 +94,7 @@ public class ColorMapControl: UIControl {
         }
     }
 
-    private let marker: MarkerViewV2
+    private let marker: ColorMapControlMarker
 
     private let feedbackGenerator = UISelectionFeedbackGenerator()
 
@@ -112,7 +112,7 @@ public class ColorMapControl: UIControl {
 
     public init(color: UIColor, tileSide: CGFloat = 4) {
         self.hsv = HSVColor(uiColor: color)
-        self.marker = MarkerViewV2(color: color)
+        self.marker = ColorMapControlMarker(color: color)
         self.tileSide = tileSide
 
         super.init(frame: .zero)

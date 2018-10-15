@@ -1,31 +1,31 @@
 import UIKit
 
-public class MarkerView: UIView {
+public class HueSliderControlMarker: UIView {
 
     // MARK: - Static configuration
 
     public static var defaultDiagonal: CGFloat = 28.0
 
-    public static var defaultEditingMagnification: CGFloat = 3.0
+    public static var defaultEditingMagnification: CGFloat = 1.5
 
     public static var defaultBorderWidth: CGFloat = 5.5
 
     // MARK:  - Public variables
 
     /// The diagonal of `self`.
-    public var diagonal = MarkerView.defaultDiagonal {
+    public var diagonal = HueSliderControlMarker.defaultDiagonal {
         didSet {
             size = CGSize(width: diagonal, height: diagonal)
         }
     }
 
-    public var borderWidth = MarkerView.defaultBorderWidth {
+    public var borderWidth = HueSliderControlMarker.defaultBorderWidth {
         didSet {
             update(animated: true)
         }
     }
 
-    public var editingMagnification: CGFloat = MarkerView.defaultEditingMagnification {
+    public var editingMagnification: CGFloat = HueSliderControlMarker.defaultEditingMagnification {
         didSet {
             update(animated: true)
         }
@@ -57,7 +57,7 @@ public class MarkerView: UIView {
 
     // MARK: - Private variables
 
-    private var size = CGSize(width: MarkerView.defaultDiagonal, height: MarkerView.defaultDiagonal) {
+    private var size = CGSize(width: HueSliderControlMarker.defaultDiagonal, height: HueSliderControlMarker.defaultDiagonal) {
         didSet {
             update(animated: true)
         }

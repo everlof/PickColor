@@ -18,7 +18,7 @@ public class HueSliderControl: UIControl {
 
     private var controlFrame: CGRect = .zero
 
-    private let cursor: MarkerView
+    private let cursor: HueSliderControlMarker
 
     private lazy var sliderLayer: CAGradientLayer = {
         return CAGradientLayer(layer: self.layer)
@@ -31,7 +31,7 @@ public class HueSliderControl: UIControl {
     }
 
     public init(color: UIColor) {
-        self.cursor = MarkerView(color: UIColor.clear)
+        self.cursor = HueSliderControlMarker(color: UIColor.clear)
         self.hue = HSVColor(uiColor: color).h
         super.init(frame: .zero)
 
@@ -41,7 +41,6 @@ public class HueSliderControl: UIControl {
         sliderLayer.borderWidth = 1.0 / UIScreen.main.scale
 
         layer.addSublayer(sliderLayer)
-        cursor.editingMagnification = 1.5
         backgroundColor = .clear
         addSubview(cursor)
 
