@@ -29,7 +29,7 @@ public class ColorTextField: UITextField, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let text = text, let color = UIColor(hexString: text) {
             colorTextFieldDelegate?.didInput(color: color)
         } else {
@@ -46,13 +46,13 @@ public class ColorTextField: UITextField, UITextFieldDelegate {
         return false
     }
 
-    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let currentText = textField.text as NSString? else { return false }
         let newText = currentText.replacingCharacters(in: range, with: string)
         return newText.first == "#" ? newText.count <= 7 : newText.count <= 6
     }
 
-    private func textFieldDidBeginEditing(_ textField: UITextField) {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
         prevText = text
     }
 

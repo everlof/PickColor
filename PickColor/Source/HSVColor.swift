@@ -1,6 +1,6 @@
 import UIKit
 
-public struct HSVColor {
+public struct HSVColor: Codable {
 
     public var h: CGFloat
     public var s: CGFloat
@@ -27,6 +27,15 @@ public struct HSVColor {
         self.s = 0
         self.v = 0
         uiColor.getHue(&self.h, saturation: &self.s, brightness: &self.v, alpha: nil)
+    }
+
+}
+
+
+extension HSVColor: Equatable {
+    
+    public static func == (lhs: HSVColor, rhs: HSVColor) -> Bool {
+        return lhs.h == rhs.h && lhs.s == rhs.s && lhs.v == rhs.v
     }
 
 }

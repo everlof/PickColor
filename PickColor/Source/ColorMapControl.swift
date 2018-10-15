@@ -1,5 +1,16 @@
 import UIKit
 
+/// Control for changing that `saturation` and the `value` of that color-picker.
+///
+/// This control will send `.valueChanged` whenever `saturation` or `value` changed.
+///
+/// `hue` can be modified by just setting it, however it won't affect `.valueChanged`,
+/// it will only change the background color of `ColorMapControl`.
+///
+/// `ColorMapControl` is supposed to be used together with `HueSliderControl`.
+///
+/// If you don't want to use `PickColorView`, but want to use `ColorMapControl` standalone,
+/// you can read the code in `PickColorView` to see how it's used from there.
 public class ColorMapControl: UIControl {
 
     // MARK: Static variables
@@ -32,7 +43,13 @@ public class ColorMapControl: UIControl {
     /// This is evaluated using the current "hue" and the values
     /// of "value" and "saturation" (which depends on the markers position).
     public var color: UIColor {
-        return HSVColor(h: hsv.hue, s: hsv.saturation, v: hsv.value).uiColor
+        get {
+            return HSVColor(h: hsv.h, s: hsv.s, v: hsv.v).uiColor
+        }
+        set {
+            marker.center = point(from: newValue, in: frame)
+            hsv = HSVColor(uiColor: newValue)
+        }
     }
 
     /// The "hue" of the whole color map, changing this value
@@ -40,8 +57,8 @@ public class ColorMapControl: UIControl {
     ///
     /// A value in the range 0 - 1
     public var hue: CGFloat {
-        get { return hsv.hue }
-        set { hsv.hue = newValue }
+        get { return hsv.h }
+        set { hsv.h = newValue }
     }
 
     /// The "saturation" of the color map. This is the saturation
@@ -49,29 +66,30 @@ public class ColorMapControl: UIControl {
     ///
     /// A value in the range 0 - 1
     public var saturation: CGFloat {
-        get { return hsv.saturation }
-        set { hsv.saturation = newValue }
+        get { return hsv.s }
+        set { hsv.s = newValue }
     }
 
     /// The "value" of the color map. This is the value
     /// that is currently selected by the marker in the view.
     ///
-    /// A a value in the range 0 - 1
+    /// A value in the range 0 - 1
     public var value: CGFloat {
-        get { return hsv.value }
-        set { hsv.value = newValue }
+        get { return hsv.v }
+        set { hsv.v = newValue }
     }
     
     // MARK: Private variables
 
-    private var hsv: (hue: CGFloat, saturation: CGFloat, value: CGFloat) {
+    private var hsv: HSVColor {
         didSet {
-            if oldValue.hue != hsv.hue {
+            if oldValue.h != hsv.h {
                 updateColorMap()
             }
 
-            if oldValue.saturation != hsv.saturation || oldValue.value != hsv.value {
+            if oldValue.s != hsv.s || oldValue.v != hsv.v {
                 updateMarker()
+                sendActions(for: .valueChanged)
             }
         }
     }
@@ -92,9 +110,8 @@ public class ColorMapControl: UIControl {
 
     private var prevSize: CGSize?
 
-    public init(color: UIColor, tileSide: CGFloat = 1) {
-        let hsv = HSVColor(uiColor: color)
-        self.hsv = (hsv.h, hsv.s, hsv.v)
+    public init(color: UIColor, tileSide: CGFloat = 4) {
+        self.hsv = HSVColor(uiColor: color)
         self.marker = MarkerViewV2(color: color)
         self.tileSide = tileSide
 
@@ -133,7 +150,7 @@ public class ColorMapControl: UIControl {
             // If we have no previous size, our `hsv` is correct, but
             // we have never rendered the marker, so we must update the marker
             // with a position corresponding to our current `hsv`
-            marker.center = point(from: HSVColor(h: hsv.hue, s: hsv.saturation, v: hsv.value).uiColor, in: frame)
+            marker.center = point(from: HSVColor(h: hsv.h, s: hsv.s, v: hsv.v).uiColor, in: frame)
             update()
         }
 
@@ -141,7 +158,7 @@ public class ColorMapControl: UIControl {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 200)
+        return CGSize(width: UIView.noIntrinsicMetric, height: 500)
     }
 
     @objc private func didTap(gesture: UITapGestureRecognizer) {
@@ -168,7 +185,7 @@ public class ColorMapControl: UIControl {
     }
 
     private func updateColorMap() {
-        colorMap(with: frame.size, and: tileSide, hue: hsv.hue, done: { image in
+        colorMap(with: frame.size, and: tileSide, hue: hsv.h, done: { image in
             self.colorMapImage = image
             self.colorMapLayer.frame = CGRect(origin: .zero, size: image.size)
             self.colorMapLayer.contents = image.cgImage
@@ -176,8 +193,7 @@ public class ColorMapControl: UIControl {
     }
 
     private func updateMarker() {
-        let hsv = hsvFrom(point: marker.center, in: frame, withHue: self.hsv.hue)
-        self.hsv = (hsv.h, hsv.s, hsv.v)
+        hsv = hsvFrom(point: marker.center, in: frame, withHue: self.hsv.h)
         marker.color = hsv.uiColor
     }
 

@@ -1,10 +1,14 @@
 import Foundation
 
-public class PickColorView: UIView {
+public class PickColorView: UIView, ToolbarColorControlDelegate {
 
     public let colorMapControl: ColorMapControl
 
     public let toolbarControl: ToolbarColorControl
+
+    public var selectedColor: UIColor {
+        return toolbarControl.selectedColor
+    }
 
     public init() {
         let startColor = UIColor(hexString: "#bfffa5")!
@@ -12,7 +16,7 @@ public class PickColorView: UIView {
         colorMapControl = ColorMapControl(color: startColor)
         colorMapControl.translatesAutoresizingMaskIntoConstraints = false
 
-        toolbarControl = ToolbarColorControl(color: startColor)
+        toolbarControl = ToolbarColorControl(selectedColor: startColor)
         toolbarControl.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
@@ -32,7 +36,7 @@ public class PickColorView: UIView {
         colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
         colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
-        toolbarControl.addTarget(self, action: #selector(toolbarChangedColor), for: .valueChanged)
+        toolbarControl.delegate = self
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -40,13 +44,21 @@ public class PickColorView: UIView {
     }
 
     @objc func colorMapChangedColor() {
-//        print("ColorMap => \(colorMapControl.color.hex)")
-        toolbarControl.color = colorMapControl.color
+        toolbarControl.selectedColor = colorMapControl.color
     }
 
-    @objc func toolbarChangedColor() {
-//        print("ColorToolbar => \(toolbarControl.color.hex)")
-//        colorMapControl.color = toolbarControl.color
+    // MARK: - ToolbarColorControlDelegate
+
+    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didUpdateHue hue: CGFloat) {
+        colorMapControl.hue = hue
+    }
+
+    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didSelectRecentColor color: UIColor) {
+        colorMapControl.color = color
+    }
+
+    public func toolbarColorControl(_ toolbarControl: ToolbarColorControl, didManuallyEnterColor color: UIColor) {
+        colorMapControl.color = color
     }
 
 }

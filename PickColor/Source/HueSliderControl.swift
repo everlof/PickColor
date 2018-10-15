@@ -1,27 +1,18 @@
 import Foundation
 
-public class BrightnessSliderControl: UIControl {
+public class HueSliderControl: UIControl {
 
     // MARK: - Public variables
 
-    public var color: UIColor {
-        get {
-            var hsv = HSVColor(uiColor: _color)
-            hsv.h = hue
-            return hsv.uiColor
-        }
-        set {
-            set(color: newValue)
+    public var hue: CGFloat {
+        didSet {
+            updateMarker()
         }
     }
-
-    public var hue: CGFloat
 
     // MARK: - Private variables
 
     private var feedbackGenerator = UISelectionFeedbackGenerator()
-
-    private var _color: UIColor
 
     private var renderingFrame: CGRect = .zero
 
@@ -40,11 +31,10 @@ public class BrightnessSliderControl: UIControl {
     }
 
     public init(color: UIColor) {
-        self.cursor = MarkerView(color: color)
-        self._color = color
-        self.hue = HSVColor(uiColor: self._color).h
+        self.cursor = MarkerView(color: UIColor.clear)
+        self.hue = HSVColor(uiColor: color).h
         super.init(frame: .zero)
-        set(color: self.color)
+
         sliderLayer.startPoint = CGPoint(x: 0, y: 0.5)
         sliderLayer.endPoint = CGPoint(x: 1, y: 0.5)
         sliderLayer.borderColor = UIColor.lightGray.cgColor
@@ -53,7 +43,6 @@ public class BrightnessSliderControl: UIControl {
         layer.addSublayer(sliderLayer)
         cursor.editingMagnification = 1.5
         backgroundColor = .clear
-
         addSubview(cursor)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
@@ -77,14 +66,7 @@ public class BrightnessSliderControl: UIControl {
         sliderLayer.colors = stride(from: 0, to: 1, by: 0.1).map {
             UIColor(hue: $0, saturation: 1.0, brightness: 1.0, alpha: 1.0).cgColor
         }
-        updateCursor()
-    }
-
-    private func set(color: UIColor) {
-        var hsv = HSVColor(uiColor: color)
-        hsv.h = hue
-        _color = hsv.uiColor
-        updateCursor()
+        updateMarker()
     }
 
     @objc func handleTap(gesture: UITapGestureRecognizer) {
@@ -92,7 +74,7 @@ public class BrightnessSliderControl: UIControl {
             feedbackGenerator.prepare()
             let tapPoint = gesture.location(ofTouch: 0, in: self)
             update(tapPoint: tapPoint)
-            updateCursor()
+            updateMarker()
             feedbackGenerator.selectionChanged()
         }
     }
@@ -111,7 +93,7 @@ public class BrightnessSliderControl: UIControl {
             } else {
                 let tapPoint = gesture.location(ofTouch: 0, in: self)
                 update(tapPoint: tapPoint)
-                updateCursor()
+                updateMarker()
                 cursor.editing = true
             }
         }
@@ -125,9 +107,8 @@ public class BrightnessSliderControl: UIControl {
         sendActions(for: .valueChanged)
     }
 
-    func updateCursor() {
+    func updateMarker() {
         cursor.center = CGPoint(x: hue * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
-        cursor.color = color
     }
 
     public override var alignmentRectInsets: UIEdgeInsets {

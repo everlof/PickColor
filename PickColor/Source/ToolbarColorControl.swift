@@ -1,7 +1,7 @@
 import UIKit
 
 public protocol ToolbarColorControlDelegate: class {
-    func toolbarColorControl(_: ToolbarColorControl, didUpdateBrightness brightness: CGFloat)
+    func toolbarColorControl(_: ToolbarColorControl, didUpdateHue hue: CGFloat)
     func toolbarColorControl(_: ToolbarColorControl, didSelectRecentColor color: UIColor)
     func toolbarColorControl(_: ToolbarColorControl, didManuallyEnterColor color: UIColor)
 }
@@ -16,22 +16,28 @@ public class ToolbarColorControl: UIControl,
 
     public let recentColorsCollectionView = RecentColorsCollectionView()
 
-    public let brightnessSlider: BrightnessSliderControl
+    public let hueSlider: HueSliderControl
 
     public var hexFont: UIFont? {
+        get { return currentColorView.colorHexTextField.font }
+        set { currentColorView.colorHexTextField.font = hexFont }
+    }
+
+    public var selectedColor: UIColor {
         get {
-            return currentColorView.colorHexTextField.font
+            return hsv.uiColor
         }
         set {
-            currentColorView.colorHexTextField.font = hexFont
+            hsv = HSVColor(uiColor: newValue)
         }
     }
 
-    public var color: UIColor {
+    private var hsv: HSVColor {
         didSet {
-            currentColorView.color = color
-            brightnessSlider.color = color
-            sendActions(for: .valueChanged)
+            if oldValue != hsv {
+                currentColorView.color = hsv.uiColor
+                sendActions(for: .valueChanged)
+            }
         }
     }
 
@@ -47,20 +53,19 @@ public class ToolbarColorControl: UIControl,
         return CGSize(width: UIView.noIntrinsicMetric, height: currentColorView.intrinsicContentSize.height + 24)
     }
 
-    public init(color: UIColor) {
-        self.color = color
-        currentColorView.color = color
-
-        brightnessSlider = BrightnessSliderControl(color: color)
+    public init(selectedColor: UIColor) {
+        hsv = HSVColor(uiColor: selectedColor)
+        currentColorView.color = selectedColor
+        hueSlider = HueSliderControl(color: selectedColor)
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
 
+        translatesAutoresizingMaskIntoConstraints = false
         currentColorView.colorHexTextField.colorTextFieldDelegate = self
 
         // addSubview(blurEffectView)
         addSubview(currentColorView)
         addSubview(recentColorsCollectionView)
-        addSubview(brightnessSlider)
+        addSubview(hueSlider)
 
         currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
@@ -75,12 +80,12 @@ public class ToolbarColorControl: UIControl,
         recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
-        brightnessSlider.translatesAutoresizingMaskIntoConstraints = false
-        brightnessSlider.leftAnchor.constraint(equalTo: currentColorView.rightAnchor, constant: 14).isActive = true
-        brightnessSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
-        brightnessSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
+        hueSlider.translatesAutoresizingMaskIntoConstraints = false
+        hueSlider.leftAnchor.constraint(equalTo: currentColorView.rightAnchor, constant: 14).isActive = true
+        hueSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
+        hueSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
 
-        brightnessSlider.addTarget(self, action: #selector(hueChanged), for: .valueChanged)
+        hueSlider.addTarget(self, action: #selector(hueChanged), for: .valueChanged)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -88,23 +93,21 @@ public class ToolbarColorControl: UIControl,
     }
 
     @objc private func hueChanged() {
-        var hsv = HSVColor(uiColor: color)
-        hsv.h = brightnessSlider.hue
-        color = hsv.uiColor
-        delegate?.toolbarColorControl(self, didUpdateBrightness: hsv.h)
+        hsv.h = hueSlider.hue
+        delegate?.toolbarColorControl(self, didUpdateHue: hueSlider.hue)
     }
 
     // MARK: - RecentColorsCollectionViewDelegate
 
     public func didSelectRecent(color: UIColor) {
-        self.color = color
+        hsv = HSVColor(uiColor: color)
         delegate?.toolbarColorControl(self, didSelectRecentColor: color)
     }
 
     // MARK: - ColorTextFieldDelegate
 
     public func didInput(color: UIColor) {
-        self.color = color
+        hsv = HSVColor(uiColor: color)
         delegate?.toolbarColorControl(self, didManuallyEnterColor: color)
     }
 
