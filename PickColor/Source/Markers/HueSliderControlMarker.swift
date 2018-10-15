@@ -6,7 +6,7 @@ public class HueSliderControlMarker: UIView {
 
     public static var defaultDiagonal: CGFloat = 28.0
 
-    public static var defaultEditingMagnification: CGFloat = 1.5
+    public static var defaultEditingMagnification: CGFloat = 1.25
 
     public static var defaultBorderWidth: CGFloat = 5.5
 

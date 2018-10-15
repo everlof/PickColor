@@ -6,26 +6,26 @@ public class ColorMapControlMarker: UIView {
 
     public static var defaultDiagonal: CGFloat = 28.0
 
-    public static var defaultEditingMagnification: CGFloat = 3.0
+    public static var defaultEditingMagnification: CGFloat = 2.0
 
     public static var defaultBorderWidth: CGFloat = 5.5
 
     // MARK:  - Public variables
 
     /// The diagonal of `self`.
-    public var diagonal = HueSliderControlMarker.defaultDiagonal {
+    public var diagonal = ColorMapControlMarker.defaultDiagonal {
         didSet {
             size = CGSize(width: diagonal, height: diagonal)
         }
     }
 
-    public var borderWidth = HueSliderControlMarker.defaultBorderWidth {
+    public var borderWidth = ColorMapControlMarker.defaultBorderWidth {
         didSet {
             update(animated: true)
         }
     }
 
-    public var editingMagnification: CGFloat = HueSliderControlMarker.defaultEditingMagnification {
+    public var editingMagnification: CGFloat = ColorMapControlMarker.defaultEditingMagnification {
         didSet {
             update(animated: true)
         }

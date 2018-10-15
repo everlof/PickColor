@@ -27,7 +27,7 @@ public class HueSliderControl: UIControl {
     // MARK: - Overridden variables
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 10)
+        return CGSize(width: UIView.noIntrinsicMetric, height: 14)
     }
 
     public init(color: UIColor) {
