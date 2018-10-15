@@ -23,7 +23,6 @@
 		C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEBB216E53EF00851939 /* HSVColor.swift */; };
 		C445EEEB2170FFFF00851939 /* ToolbarColorControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */; };
 		C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF2217228B300851939 /* SKTimingFunction.swift */; };
-		C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF4217397DD00851939 /* PlusMarkerView.swift */; };
 		C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +64,6 @@
 		C445EEBB216E53EF00851939 /* HSVColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSVColor.swift; sourceTree = "<group>"; };
 		C445EEEA2170FFFF00851939 /* ToolbarColorControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarColorControl.swift; sourceTree = "<group>"; };
 		C445EEF2217228B300851939 /* SKTimingFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTimingFunction.swift; sourceTree = "<group>"; };
-		C445EEF4217397DD00851939 /* PlusMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMarkerView.swift; sourceTree = "<group>"; };
 		C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControlMarker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,6 +129,7 @@
 		C43E12AE216B830400146F3A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C445EF1D2175141B00851939 /* Markers */,
 				C445EEEC2172254000851939 /* Bezier */,
 				C445EEB0216E25BB00851939 /* CollectionView */,
 				C445EEB7216E277B00851939 /* HueSliderControl.swift */,
@@ -139,9 +138,6 @@
 				C445EEAE216E250600851939 /* ColorTextField.swift */,
 				C445EEB5216E267400851939 /* CurrentColorView.swift */,
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
-				C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */,
-				C445EEF4217397DD00851939 /* PlusMarkerView.swift */,
-				C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -178,6 +174,15 @@
 				C445EEF2217228B300851939 /* SKTimingFunction.swift */,
 			);
 			path = Bezier;
+			sourceTree = "<group>";
+		};
+		C445EF1D2175141B00851939 /* Markers */ = {
+			isa = PBXGroup;
+			children = (
+				C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */,
+				C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */,
+			);
+			path = Markers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,7 +322,6 @@
 				C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */,
 				C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,
-				C445EEF5217397DD00851939 /* PlusMarkerView.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,
 				C445EEAF216E250600851939 /* ColorTextField.swift in Sources */,
 			);
