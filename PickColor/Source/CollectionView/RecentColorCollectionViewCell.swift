@@ -10,7 +10,7 @@ public class RecentColorCollectionViewCell: UICollectionViewCell {
 
     public weak var delegate: RecentColorCollectionViewCellDelegate?
 
-    public var color: UIColor = .red {
+    public var color: UIColor = UIColor.clear {
         didSet {
             backgroundColor = color
             layer.borderColor = color.withAlphaComponent(0.5).cgColor

@@ -10,6 +10,8 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         return toolbarControl.selectedColor
     }
 
+    public let select = UIButton(type: .system)
+
     public init() {
         let startColor = UIColor(hexString: "#bfffa5")!
 
@@ -24,6 +26,14 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
         addSubview(toolbarControl)
         addSubview(colorMapControl)
+        addSubview(select)
+
+        select.translatesAutoresizingMaskIntoConstraints = false
+        select.setTitle("Save", for: .normal)
+        select.addTarget(self, action: #selector(didSave), for: .touchUpInside)
+
+        select.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        select.topAnchor.constraint(equalTo: colorMapControl.bottomAnchor, constant: 30).isActive = true
 
         toolbarControl.topAnchor.constraint(equalTo: topAnchor).isActive = true
         toolbarControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -41,6 +51,10 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc func didSave() {
+        Persistance.save(color: selectedColor)
     }
 
     @objc func colorMapChangedColor() {

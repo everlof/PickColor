@@ -12,7 +12,7 @@ public class ToolbarView: UIView,
 
     public weak var delegate: ToolbarViewDelegate?
 
-    public let currentColorView = CurrentColorView()
+    public let currentColorView: CurrentColorView
 
     public let recentColorsCollectionView = RecentColorsCollectionView()
 
@@ -41,7 +41,7 @@ public class ToolbarView: UIView,
     }
 
 //    lazy var blurEffectView: UIVisualEffectView = {
-//        let blurEffect = UIBlurEffect(style: .prominent)
+//        let blurEffect = UIBlurEffect(style: .dark)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurEffectView.frame = bounds
 //        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -53,6 +53,7 @@ public class ToolbarView: UIView,
 //    }
 
     public init(selectedColor: UIColor) {
+        self.currentColorView = CurrentColorView(color: selectedColor)
         hsv = HSVColor(uiColor: selectedColor)
         currentColorView.color = selectedColor
         hueSlider = HueSliderControl(color: selectedColor)
@@ -61,26 +62,28 @@ public class ToolbarView: UIView,
         translatesAutoresizingMaskIntoConstraints = false
         currentColorView.colorHexTextField.colorTextFieldDelegate = self
 
-//        // addSubview(blurEffectView)
+//        addSubview(blurEffectView)
 //        addSubview(currentColorView)
-//        addSubview(recentColorsCollectionView)
+        addSubview(recentColorsCollectionView)
         addSubview(hueSlider)
 //
 //        currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
 //        currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
 //        currentColorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
 //
-//        recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
-//        recentColorsCollectionView.recentColorDelegate = self
-//        recentColorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        recentColorsCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-//        recentColorsCollectionView.leftAnchor.constraint(equalTo: currentColorView.rightAnchor).isActive = true
-//        recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
-//        recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        recentColorsCollectionView.recentColorDelegate = self
+        recentColorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+
+        recentColorsCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        recentColorsCollectionView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+
+        recentColorsCollectionView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor, constant: -20).isActive = true
 
         hueSlider.translatesAutoresizingMaskIntoConstraints = false
-        hueSlider.topAnchor.constraint(equalTo: topAnchor, constant: 24).isActive = true
+
         hueSlider.leftAnchor.constraint(equalTo: leftAnchor, constant: 14).isActive = true
         hueSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
         hueSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24).isActive = true

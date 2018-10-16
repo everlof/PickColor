@@ -47,4 +47,22 @@ extension UIColor {
         return String(format: "#%06x", rgb)
     }
 
+    var red: CGFloat {
+        var r: CGFloat = 0
+        getRed(&r, green: nil, blue: nil, alpha: nil)
+        return r
+    }
+
+    var green: CGFloat {
+        var g: CGFloat = 0
+        getRed(nil, green: &g, blue: nil, alpha: nil)
+        return g
+    }
+
+    var blue: CGFloat {
+        var b: CGFloat = 0
+        getRed(nil, green: nil, blue: &b, alpha: nil)
+        return b
+    }
+
 }

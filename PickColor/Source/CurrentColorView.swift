@@ -2,7 +2,7 @@ import UIKit
 
 public class CurrentColorView: UIView {
 
-    internal var color: UIColor = .red {
+    public var color: UIColor {
         didSet {
             backgroundView.backgroundColor = color
             colorHexTextField.text = color.hex
@@ -19,7 +19,8 @@ public class CurrentColorView: UIView {
         return CGSize(width: 80, height: 120)
     }
 
-    init() {
+    init(color: UIColor) {
+        self.color = color
         super.init(frame: .zero)
         containerView.axis = .vertical
         translatesAutoresizingMaskIntoConstraints = false

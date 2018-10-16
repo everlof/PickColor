@@ -31,7 +31,6 @@ public struct HSVColor: Codable {
 
 }
 
-
 extension HSVColor: Equatable {
     
     public static func == (lhs: HSVColor, rhs: HSVColor) -> Bool {
