@@ -10,8 +10,6 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         return toolbarControl.selectedColor
     }
 
-    public let select = UIButton(type: .system)
-
     public init() {
         let startColor = UIColor(hexString: "#bfffa5")!
 
@@ -26,14 +24,6 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
         addSubview(toolbarControl)
         addSubview(colorMapControl)
-        addSubview(select)
-
-        select.translatesAutoresizingMaskIntoConstraints = false
-        select.setTitle("Save", for: .normal)
-        select.addTarget(self, action: #selector(didSave), for: .touchUpInside)
-
-        select.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        select.topAnchor.constraint(equalTo: colorMapControl.bottomAnchor, constant: 30).isActive = true
 
         toolbarControl.topAnchor.constraint(equalTo: topAnchor).isActive = true
         toolbarControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -42,7 +32,6 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         colorMapControl.topAnchor.constraint(equalTo: toolbarControl.bottomAnchor).isActive = true
 
         colorMapControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-//        colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
         colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
@@ -53,15 +42,15 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func didSave() {
-        Persistance.save(color: selectedColor)
-    }
-
     @objc func colorMapChangedColor() {
         toolbarControl.selectedColor = colorMapControl.color
     }
 
     // MARK: - ToolbarViewDelegate
+
+    public func toolbarView(_: ToolbarView, didPick color: UIColor) {
+        Persistance.save(color: color)
+    }
 
     public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
         colorMapControl.hue = hue

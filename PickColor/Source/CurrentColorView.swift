@@ -1,5 +1,9 @@
 import UIKit
 
+public protocol CurrentColorViewDelegate: class {
+    func currentColorView(_ : CurrentColorView, didSelectColor: UIColor)
+}
+
 public class CurrentColorView: UIView {
 
     public var color: UIColor {
@@ -9,14 +13,18 @@ public class CurrentColorView: UIView {
         }
     }
 
+    public weak var delegate: CurrentColorViewDelegate?
+
     private let containerView = UIStackView()
 
     internal let colorHexTextField = ColorTextField()
 
     internal let backgroundView = UIView()
 
+    internal let tapGestureRecognizer = UITapGestureRecognizer()
+
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: 80, height: 120)
+        return CGSize(width: 80, height: 100)
     }
 
     init(color: UIColor) {
@@ -33,6 +41,10 @@ public class CurrentColorView: UIView {
         backgroundColor = .white
         colorHexTextField.textAlignment = .center
 
+        isUserInteractionEnabled = true
+        addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action: #selector(didTap))
+
         addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -46,6 +58,10 @@ public class CurrentColorView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc func didTap() {
+        delegate?.currentColorView(self, didSelectColor: color)
     }
 
 }

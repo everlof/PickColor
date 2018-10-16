@@ -10,7 +10,7 @@ public class ColorTextField: UITextField, UITextFieldDelegate {
 
     public override var intrinsicContentSize: CGSize {
         let superSize = super.intrinsicContentSize
-        return CGSize(width: superSize.width, height: superSize.height + 18)
+        return CGSize(width: superSize.width, height: superSize.height + 12)
     }
 
     // For when entering something that is NOT a HEX-Color.

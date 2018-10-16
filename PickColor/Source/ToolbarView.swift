@@ -4,11 +4,14 @@ public protocol ToolbarViewDelegate: class {
     func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat)
     func toolbarView(_: ToolbarView, didSelectRecentColor color: UIColor)
     func toolbarView(_: ToolbarView, didManuallyEnterColor color: UIColor)
+    func toolbarView(_: ToolbarView, didPick color: UIColor)
 }
 
 public class ToolbarView: UIView,
     RecentColorsCollectionViewDelegate,
-    ColorTextFieldDelegate {
+    ColorTextFieldDelegate,
+    CurrentColorViewDelegate {
+
 
     public weak var delegate: ToolbarViewDelegate?
 
@@ -60,29 +63,31 @@ public class ToolbarView: UIView,
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        currentColorView.colorHexTextField.colorTextFieldDelegate = self
-
-//        addSubview(blurEffectView)
-//        addSubview(currentColorView)
-        addSubview(recentColorsCollectionView)
-        addSubview(hueSlider)
-//
-//        currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
-//        currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
-//        currentColorView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12).isActive = true
-//
-        recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
-        recentColorsCollectionView.recentColorDelegate = self
+        hueSlider.translatesAutoresizingMaskIntoConstraints = false
         recentColorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        recentColorsCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        recentColorsCollectionView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+//        addSubview(blurEffectView)
+
+        addSubview(currentColorView)
+        addSubview(recentColorsCollectionView)
+        addSubview(hueSlider)
+
+        currentColorView.delegate = self
+        currentColorView.colorHexTextField.colorTextFieldDelegate = self
+        recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        recentColorsCollectionView.recentColorDelegate = self
+
+        currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
+
+        currentColorView.rightAnchor.constraint(equalTo: recentColorsCollectionView.leftAnchor).isActive = true
+
         recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        recentColorsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44).isActive = true
         recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
+        currentColorView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor, constant: -20).isActive = true
         recentColorsCollectionView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor, constant: -20).isActive = true
-
-        hueSlider.translatesAutoresizingMaskIntoConstraints = false
 
         hueSlider.leftAnchor.constraint(equalTo: leftAnchor, constant: 14).isActive = true
         hueSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
@@ -112,6 +117,12 @@ public class ToolbarView: UIView,
     public func didInput(color: UIColor) {
         hsv = HSVColor(uiColor: color)
         delegate?.toolbarView(self, didManuallyEnterColor: color)
+    }
+
+    // MARK: - CurrentColorViewDelegate
+
+    public func currentColorView(_: CurrentColorView, didSelectColor color: UIColor) {
+        delegate?.toolbarView(self, didPick: color)
     }
 
 }

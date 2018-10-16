@@ -52,7 +52,7 @@ public class RecentColorsCollectionView: UICollectionView,
         showsHorizontalScrollIndicator = false
         backgroundColor = .clear
 
-        flowLayout.scrollDirection = .horizontal
+        flowLayout.scrollDirection = .vertical
 
         register(RecentColorCollectionViewCell.self, forCellWithReuseIdentifier: RecentColorCollectionViewCell.identifier)
 
@@ -73,7 +73,8 @@ public class RecentColorsCollectionView: UICollectionView,
     }
 
     func didChangeSize() {
-        flowLayout.itemSize = CGSize(width: frame.height, height: frame.height)
+        // flowLayout.itemSize = CGSize(width: frame.height, height: frame.height)
+        flowLayout.itemSize = CGSize(width: 44, height: 44)
         flowLayout.invalidateLayout()
     }
 
