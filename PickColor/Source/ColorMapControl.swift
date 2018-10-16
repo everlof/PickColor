@@ -7,6 +7,8 @@ import UIKit
 /// `hue` can be modified by just setting it, however it won't affect `.valueChanged`,
 /// it will only change the background color of `ColorMapControl`.
 ///
+/// Setting the `color` will not generate a `.valueChanged` event either.
+///
 /// `ColorMapControl` is supposed to be used together with `HueSliderControl`.
 ///
 /// If you don't want to use `PickColorView`, but want to use `ColorMapControl` standalone,
@@ -138,7 +140,6 @@ public class ColorMapControl: UIControl {
         addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(didTap(gesture:)))
 
-        // Add subview
         addSubview(marker)
     }
 
@@ -211,10 +212,8 @@ public class ColorMapControl: UIControl {
 
     private func colorMap(with size: CGSize, and tileSide: CGFloat, hue: CGFloat, done: @escaping ((UIImage) -> Void)) {
         DispatchQueue.global(qos: .userInteractive).async {
-            let start = Date()
             let nbrPixelsX = size.width / tileSide
             let nbrPixelsY = size.height / tileSide
-
             var image: UIImage! = nil
 
             UIGraphicsBeginImageContextWithOptions(size, true, 0)
@@ -241,10 +240,6 @@ public class ColorMapControl: UIControl {
             image = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
 
-            let end = Date()
-
-            print("Render time: \(end.timeIntervalSince(start))")
-
             DispatchQueue.main.async {
                 done(image)
             }
@@ -264,8 +259,8 @@ public class ColorMapControl: UIControl {
     private func point(from color: UIColor, in rect: CGRect) -> CGPoint {
         let hsv = HSVColor(uiColor: color)
         let normalizedX = saturationTimingFunction?.t(for: hsv.s) ?? hsv.s
-        let normalizedY = valueTimingFunction?.t(for: (1 - hsv.v)) ?? (1 - hsv.v)
-        return CGPoint(x: normalizedX * rect.width, y: normalizedY * rect.height)
+        let normalizedY = valueTimingFunction?.t(for: hsv.v) ?? hsv.v
+        return CGPoint(x: normalizedX * rect.width, y: (1 - normalizedY) * rect.height)
     }
 
 }

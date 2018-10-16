@@ -19,6 +19,8 @@ public class ToolbarView: UIView,
 
     public let recentColorsCollectionView = RecentColorsCollectionView()
 
+    public let colorNameLabel = UILabel()
+
     public let hueSlider: HueSliderControl
 
     public var hexFont: UIFont? {
@@ -44,7 +46,7 @@ public class ToolbarView: UIView,
     }
 
 //    lazy var blurEffectView: UIVisualEffectView = {
-//        let blurEffect = UIBlurEffect(style: .dark)
+//        let blurEffect = UIBlurEffect(style: .extraLight)
 //        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 //        blurEffectView.frame = bounds
 //        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -71,6 +73,7 @@ public class ToolbarView: UIView,
         addSubview(currentColorView)
         addSubview(recentColorsCollectionView)
         addSubview(hueSlider)
+        addSubview(colorNameLabel)
 
         currentColorView.delegate = self
         currentColorView.colorHexTextField.colorTextFieldDelegate = self

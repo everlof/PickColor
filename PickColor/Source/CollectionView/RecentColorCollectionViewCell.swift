@@ -13,7 +13,6 @@ public class RecentColorCollectionViewCell: UICollectionViewCell {
     public var color: UIColor = UIColor.clear {
         didSet {
             backgroundColor = color
-            layer.borderColor = color.withAlphaComponent(0.5).cgColor
         }
     }
 
@@ -24,17 +23,13 @@ public class RecentColorCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-
         layer.masksToBounds = true
-        layer.borderWidth = 1 / UIScreen.main.scale
-
         addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         button.topAnchor.constraint(equalTo: topAnchor).isActive = true
         button.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         button.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
     }
 

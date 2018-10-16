@@ -9,6 +9,18 @@
 
 import UIKit
 
+// TODO: Change to:
+// https://github.com/ehsan/mozilla-history/blob/master/content/smil/nsSMILKeySpline.cpp
+//
+// Taken from: https://gist.github.com/entotsu/bebc65e184ea109ddef6
+// Which was inspired from: http://greweb.me/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
+
+//
+// Finding intersection
+// https://math.stackexchange.com/questions/527005/find-value-of-t-at-a-point-on-a-cubic-bezier-curve?rq=1
+// Try this one. I think it's still chapter 17, but rhe page numbering might be a bit different.
+// https://scholarsarchive.byu.edu/facpub/1/
+
 /**
  # CAMediaTimingFunction in Anywhere.
  All the cool animation curves from `CAMediaTimingFunction` but it is only available to use with CoreAnimation.

@@ -21,15 +21,29 @@ struct Persistance {
 
     public static func save(color: UIColor) {
         container.performBackgroundTask { ctx in
-            let insertedColor = NSEntityDescription.insertNewObject(forEntityName: Color.self.description(), into: ctx) as! Color
-            insertedColor.lastUsed = Date() as NSDate
-            insertedColor.red = Float(color.red)
-            insertedColor.green = Float(color.green)
-            insertedColor.blue = Float(color.blue)
+            let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+                NSPredicate(format: "red == %@", NSNumber(value: Float(color.red))),
+                NSPredicate(format: "green == %@", NSNumber(value: Float(color.green))),
+                NSPredicate(format: "blue == %@", NSNumber(value: Float(color.blue)))
+            ])
+
+            let fr = NSFetchRequest<Color>(entityName: Color.self.description())
+            fr.predicate = predicate
+
+            if case let existingColor?? = try? ctx.fetch(fr).first {
+                existingColor.lastUsed = Date() as NSDate
+//                print("Update => \(existingColor)")
+            } else {
+                let insertedColor = NSEntityDescription.insertNewObject(forEntityName: Color.self.description(), into: ctx) as! Color
+                insertedColor.lastUsed = Date() as NSDate
+                insertedColor.red = Float(color.red)
+                insertedColor.green = Float(color.green)
+                insertedColor.blue = Float(color.blue)
+//                print("Saved => \(insertedColor)")
+            }
 
             do {
                 try ctx.save()
-                print("Saved => \(insertedColor)")
             } catch {
                 fatalError(error.localizedDescription)
             }

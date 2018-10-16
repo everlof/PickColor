@@ -15,6 +15,8 @@ public class CurrentColorView: UIView {
 
     public weak var delegate: CurrentColorViewDelegate?
 
+    private var feedbackGenerator = UISelectionFeedbackGenerator()
+
     private let containerView = UIStackView()
 
     internal let colorHexTextField = ColorTextField()
@@ -27,7 +29,7 @@ public class CurrentColorView: UIView {
         return CGSize(width: 80, height: 100)
     }
 
-    init(color: UIColor) {
+    public init(color: UIColor) {
         self.color = color
         super.init(frame: .zero)
         containerView.axis = .vertical
@@ -61,7 +63,9 @@ public class CurrentColorView: UIView {
     }
 
     @objc func didTap() {
+        feedbackGenerator.prepare()
         delegate?.currentColorView(self, didSelectColor: color)
+        feedbackGenerator.selectionChanged()
     }
 
 }

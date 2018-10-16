@@ -65,4 +65,21 @@ extension UIColor {
         return b
     }
 
+    var complementaryColor: UIColor {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+
+        getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+
+        if hue <= 0.5 {
+            hue += 0.5
+        } else {
+            hue -= 0.5
+        }
+
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+    }
+
 }
