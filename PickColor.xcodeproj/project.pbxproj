@@ -40,13 +40,6 @@
 			remoteGlobalIDString = C43E1291216B82F400146F3A;
 			remoteInfo = PickColor;
 		};
-		C43E12D8216BCE8700146F3A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C43E12D4216BCE8600146F3A /* Example.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C43E12BF216BCE8400146F3A;
-			remoteInfo = Example;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -59,7 +52,6 @@
 		C43E12AF216B831400146F3A /* PickColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickColorView.swift; sourceTree = "<group>"; };
 		C43E12B1216B832600146F3A /* ColorMapControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControl.swift; sourceTree = "<group>"; };
 		C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
-		C43E12D4216BCE8600146F3A /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Example.xcodeproj; path = PickColor/Example/Example/Example.xcodeproj; sourceTree = SOURCE_ROOT; };
 		C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControlMarker.swift; sourceTree = "<group>"; };
 		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
@@ -119,10 +111,8 @@
 		C43E1294216B82F400146F3A /* PickColor */ = {
 			isa = PBXGroup;
 			children = (
-				C43E12AF216B831400146F3A /* PickColorView.swift */,
-				C43E12D4216BCE8600146F3A /* Example.xcodeproj */,
-				C43E12B3216BCC2F00146F3A /* Extensions */,
 				C43E12AE216B830400146F3A /* Source */,
+				C43E12AF216B831400146F3A /* PickColorView.swift */,
 				C43E1295216B82F400146F3A /* PickColor.h */,
 				C43E1296216B82F400146F3A /* Info.plist */,
 			);
@@ -141,17 +131,15 @@
 		C43E12AE216B830400146F3A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C445EF282175D3B800851939 /* ColorName */,
-				C445EF1E2175A27A00851939 /* Persistance */,
-				C445EF1D2175141B00851939 /* Markers */,
 				C445EEEC2172254000851939 /* Bezier */,
 				C445EEB0216E25BB00851939 /* CollectionView */,
-				C445EEB7216E277B00851939 /* HueSliderControl.swift */,
-				C445EEEA2170FFFF00851939 /* ToolbarView.swift */,
-				C43E12B1216B832600146F3A /* ColorMapControl.swift */,
-				C445EEAE216E250600851939 /* ColorTextField.swift */,
-				C445EEB5216E267400851939 /* CurrentColorView.swift */,
-				C445EEBB216E53EF00851939 /* HSVColor.swift */,
+				C445EF282175D3B800851939 /* ColorName */,
+				C445EF672177180300851939 /* Controls */,
+				C43E12B3216BCC2F00146F3A /* Extensions */,
+				C445EF1D2175141B00851939 /* Markers */,
+				C445EF692177182700851939 /* Models */,
+				C445EF1E2175A27A00851939 /* Persistance */,
+				C445EF682177181E00851939 /* Views */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -163,14 +151,6 @@
 				C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		C43E12D5216BCE8600146F3A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C43E12D9216BCE8700146F3A /* Example.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C445EEB0216E25BB00851939 /* CollectionView */ = {
@@ -202,8 +182,7 @@
 		C445EF1E2175A27A00851939 /* Persistance */ = {
 			isa = PBXGroup;
 			children = (
-				C445EF242175C64000851939 /* Color+CoreDataClass.swift */,
-				C445EF252175C64000851939 /* Color+CoreDataProperties.swift */,
+				C445EF6A2177184F00851939 /* Classes */,
 				C445EF1F2175A2F800851939 /* PickColorModel.xcdatamodeld */,
 				C445EF222175A31400851939 /* Persistance.swift */,
 			);
@@ -217,6 +196,42 @@
 				C445EF2B2175D3E600851939 /* NameList.swift */,
 			);
 			path = ColorName;
+			sourceTree = "<group>";
+		};
+		C445EF672177180300851939 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				C43E12B1216B832600146F3A /* ColorMapControl.swift */,
+				C445EEAE216E250600851939 /* ColorTextField.swift */,
+				C445EEB7216E277B00851939 /* HueSliderControl.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		C445EF682177181E00851939 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C445EEB5216E267400851939 /* CurrentColorView.swift */,
+				C445EEEA2170FFFF00851939 /* ToolbarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C445EF692177182700851939 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C445EEBB216E53EF00851939 /* HSVColor.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C445EF6A2177184F00851939 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C445EF242175C64000851939 /* Color+CoreDataClass.swift */,
+				C445EF252175C64000851939 /* Color+CoreDataProperties.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,12 +313,6 @@
 			mainGroup = C43E1288216B82F400146F3A;
 			productRefGroup = C43E1293216B82F400146F3A /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C43E12D5216BCE8600146F3A /* Products */;
-					ProjectRef = C43E12D4216BCE8600146F3A /* Example.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C43E1291216B82F400146F3A /* PickColor */,
@@ -311,16 +320,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C43E12D9216BCE8700146F3A /* Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Example.app;
-			remoteRef = C43E12D8216BCE8700146F3A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C43E1290216B82F400146F3A /* Resources */ = {

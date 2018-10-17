@@ -20,30 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+import Foundation
+import CoreData
 
-import XCTest
-@testable import PickColor
+extension Color {
 
-class PickColorTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Color> {
+        return NSFetchRequest<Color>(entityName: "Color")
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    @NSManaged public var blue: Float
+    @NSManaged public var green: Float
+    @NSManaged public var lastUsed: NSDate?
+    @NSManaged public var red: Float
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    var uiColor: UIColor {
+        return UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1.0)
     }
 
 }

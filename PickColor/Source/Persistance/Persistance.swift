@@ -1,3 +1,26 @@
+// MIT License
+//
+// Copyright (c) 2018 David Everlöf
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+
 import Foundation
 import UIKit
 import CoreData
@@ -32,14 +55,12 @@ struct Persistance {
 
             if case let existingColor?? = try? ctx.fetch(fr).first {
                 existingColor.lastUsed = Date() as NSDate
-//                print("Update => \(existingColor)")
             } else {
                 let insertedColor = NSEntityDescription.insertNewObject(forEntityName: Color.self.description(), into: ctx) as! Color
                 insertedColor.lastUsed = Date() as NSDate
                 insertedColor.red = Float(color.red)
                 insertedColor.green = Float(color.green)
                 insertedColor.blue = Float(color.blue)
-//                print("Saved => \(insertedColor)")
             }
 
             do {
