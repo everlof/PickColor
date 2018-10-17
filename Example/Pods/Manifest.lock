@@ -1,0 +1,16 @@
+PODS:
+  - PickColor (0.1.0)
+
+DEPENDENCIES:
+  - PickColor (from `../PickColor.podspec`)
+
+EXTERNAL SOURCES:
+  PickColor:
+    :path: "../PickColor.podspec"
+
+SPEC CHECKSUMS:
+  PickColor: 60f500b8c1cd37e057ce726adfed3ff489b8b21b
+
+PODFILE CHECKSUM: ea6b3872bc8d450c9308f8a876a4b7f325cda2dc
+
+COCOAPODS: 1.5.3
