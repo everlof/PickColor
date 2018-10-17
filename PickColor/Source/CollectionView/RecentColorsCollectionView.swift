@@ -66,7 +66,7 @@ public class RecentColorsCollectionView: UICollectionView,
 
     }()
 
-    init() {
+    public init() {
         super.init(frame: .zero, collectionViewLayout: flowLayout)
 
         delegate = self
@@ -95,17 +95,17 @@ public class RecentColorsCollectionView: UICollectionView,
         reloadData()
     }
 
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func didChangeSize() {
         // flowLayout.itemSize = CGSize(width: frame.height, height: frame.height)
         flowLayout.itemSize = CGSize(width: 44, height: 44)
         flowLayout.invalidateLayout()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return fetchedResultController.sections!.count
     }
 
