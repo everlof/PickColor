@@ -25,7 +25,7 @@ import UIKit
 
 extension UIColor {
 
-    convenience init?(hexString: String) {
+    internal convenience init?(hexString: String) {
         let hexString: String = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
         let scanner            = Scanner(string: hexString as String)
 
@@ -57,7 +57,7 @@ extension UIColor {
         self.init(red:red, green:green, blue:blue, alpha:1)
     }
 
-    var hex: String {
+    internal var hex: String {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0
@@ -70,25 +70,25 @@ extension UIColor {
         return String(format: "#%06x", rgb)
     }
 
-    var red: CGFloat {
+    internal var red: CGFloat {
         var r: CGFloat = 0
         getRed(&r, green: nil, blue: nil, alpha: nil)
         return r
     }
 
-    var green: CGFloat {
+    internal var green: CGFloat {
         var g: CGFloat = 0
         getRed(nil, green: &g, blue: nil, alpha: nil)
         return g
     }
 
-    var blue: CGFloat {
+    internal var blue: CGFloat {
         var b: CGFloat = 0
         getRed(nil, green: nil, blue: &b, alpha: nil)
         return b
     }
 
-    var complementaryColor: UIColor {
+    internal var complementaryColor: UIColor {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0

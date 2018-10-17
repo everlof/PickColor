@@ -18,7 +18,16 @@
   "platforms": {
     "ios": "12.0"
   },
-  "source_files": "PickColor/**/*.swift",
-  "resources": "X.xcdatamodeld",
+  "source_files": [
+    "PickColor/**/*.swift",
+    "PickColor/Source/Persistance/PickColorModel.xcdatamodeld",
+    "PickColor/Source/Persistance/PickColorModel.xcdatamodeld/*.xcdatamodel"
+  ],
+  "resources": [
+    "PickColor/Source/Persistance/PickColorModel.xcdatamodeld",
+    "PickColor/Source/Persistance/PickColorModel.xcdatamodeld/*.xcdatamodel"
+  ],
+  "preserve_paths": "PickColor/Source/Persistance/PickColorModel.xcdatamodeld",
+  "frameworks": "CoreData",
   "swift_version": "4.2"
 }

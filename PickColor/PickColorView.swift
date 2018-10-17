@@ -22,7 +22,15 @@
 
 import Foundation
 
+public protocol PickColorViewDelegate: class {
+    func pickColorView(_: PickColorView, didTapSelectedColor: UIColor)
+    func pickColorView(_: PickColorView, didPickRecentColor: UIColor)
+    func pickColorView(_: PickColorView, didManuallyEnterColor: UIColor)
+}
+
 public class PickColorView: UIView, ToolbarViewDelegate {
+
+    public weak var delegate: PickColorViewDelegate?
 
     public let colorMapControl: ColorMapControl
 
@@ -32,13 +40,11 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         return toolbarControl.selectedColor
     }
 
-    public init() {
-        let startColor = UIColor(hexString: "#bfffa5")!
-
-        colorMapControl = ColorMapControl(color: startColor)
+    public init(initialColor color: UIColor) {
+        colorMapControl = ColorMapControl(color: color)
         colorMapControl.translatesAutoresizingMaskIntoConstraints = false
 
-        toolbarControl = ToolbarView(selectedColor: startColor)
+        toolbarControl = ToolbarView(selectedColor: color)
         toolbarControl.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
@@ -55,6 +61,7 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
         colorMapControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
         colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
         toolbarControl.delegate = self
@@ -72,6 +79,7 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
     public func toolbarView(_: ToolbarView, didPick color: UIColor) {
         Persistance.save(color: color)
+        delegate?.pickColorView(self, didTapSelectedColor: color)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
@@ -80,10 +88,12 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
     public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {
         colorMapControl.color = color
+        delegate?.pickColorView(self, didPickRecentColor: color)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didManuallyEnterColor color: UIColor) {
         colorMapControl.color = color
+        delegate?.pickColorView(self, didManuallyEnterColor: color)
     }
 
 }

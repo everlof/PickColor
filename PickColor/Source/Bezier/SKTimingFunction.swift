@@ -48,7 +48,7 @@ public class SKTimingFunction {
     }
 
     private func get(aX: CGFloat) -> CGFloat {
-        if (mX1 == mY1 && mX2 == mY2) { return aX }// linear
+        if (mX1 == mY1 && mX2 == mY2) { return aX } // linear
         return calcBezier(aT: getTForX(aX: aX), mY1, mY2)
     }
 

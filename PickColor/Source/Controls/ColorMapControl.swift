@@ -192,7 +192,7 @@ public class ColorMapControl: UIControl {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 200)
+        return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
     }
 
     @objc private func didTap(gesture: UITapGestureRecognizer) {

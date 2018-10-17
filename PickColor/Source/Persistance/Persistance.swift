@@ -34,13 +34,12 @@ public class PickColorPersistentContainer: NSPersistentContainer {
         if !FileManager.default.fileExists(atPath: url.absoluteString) {
             try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
         }
-        print("db location=\(url.absoluteString)")
         return url
     }
 
 }
 
-struct Persistance {
+public struct Persistance {
 
     public static func save(color: UIColor) {
         container.performBackgroundTask { ctx in
@@ -80,7 +79,8 @@ struct Persistance {
          */
         let container = PickColorPersistentContainer(name: "PickColorModel")
         let description = NSPersistentStoreDescription()
-        description.type = NSInMemoryStoreType
+        // description.type = NSInMemoryStoreType
+        description.type = NSSQLiteStoreType
         container.persistentStoreDescriptions = [description]
 
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in

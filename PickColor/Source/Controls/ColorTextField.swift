@@ -27,8 +27,12 @@ public protocol ColorTextFieldDelegate: class {
     func didInput(color: UIColor)
 }
 
+/// Textfield that is used to present hex-values from a colors.
+///
+/// It can be used to input colors via the keyboard as well.
 public class ColorTextField: UITextField, UITextFieldDelegate {
 
+    /// Delegate for listening to when a proper hex-color has been entered into the textfield.
     public weak var colorTextFieldDelegate: ColorTextFieldDelegate?
 
     public override var intrinsicContentSize: CGSize {

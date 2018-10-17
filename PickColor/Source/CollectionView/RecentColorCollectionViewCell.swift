@@ -27,23 +27,33 @@ public protocol RecentColorCollectionViewCellDelegate: class {
     func didSelectRecent(color: UIColor)
 }
 
+/// Cell that is used to present a color.
 public class RecentColorCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - Static variables
+
+    /// Reuse identifier
     public static let identifier = "RecentColorCollectionViewCell"
 
+    // MARK: - Public variables
+
+    /// Delegate for when this cell is "tapped"
     public weak var delegate: RecentColorCollectionViewCellDelegate?
 
+    /// The color that this cell represents.
     public var color: UIColor = UIColor.clear {
         didSet {
             backgroundColor = color
         }
     }
 
+    // MARK: - Private variables
+
     private var feedbackGenerator = UISelectionFeedbackGenerator()
 
     private let button = UIButton(type: .system)
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         layer.masksToBounds = true
@@ -56,11 +66,11 @@ public class RecentColorCollectionViewCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height / 2
     }

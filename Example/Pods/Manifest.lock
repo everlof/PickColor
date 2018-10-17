@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../PickColor.podspec"
 
 SPEC CHECKSUMS:
-  PickColor: 60f500b8c1cd37e057ce726adfed3ff489b8b21b
+  PickColor: 4d9db69576fe5306029c0cb95feda7b988ecdf2c
 
 PODFILE CHECKSUM: ea6b3872bc8d450c9308f8a876a4b7f325cda2dc
 

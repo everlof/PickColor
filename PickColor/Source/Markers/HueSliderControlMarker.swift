@@ -35,7 +35,6 @@ public class HueSliderControlMarker: UIView {
 
     // MARK:  - Public variables
 
-    /// The diagonal of `self`.
     public var diagonal = HueSliderControlMarker.defaultDiagonal {
         didSet {
             size = CGSize(width: diagonal, height: diagonal)
