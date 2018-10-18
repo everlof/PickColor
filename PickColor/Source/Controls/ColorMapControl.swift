@@ -178,7 +178,9 @@ public class ColorMapControl: UIControl {
             self.updateMarker()
         }
 
-        if let prevSize = prevSize, prevSize != frame.size {
+        if frame.size.width == 0 || frame.size.height == 0 {
+            // Ignore
+        } else if let prevSize = prevSize, prevSize != frame.size {
             update()
         } else if prevSize == nil {
             // If we have no previous size, our `hsv` is correct, but
@@ -221,8 +223,8 @@ public class ColorMapControl: UIControl {
     private func updateColorMap() {
         colorMap(with: frame.size, and: tileSide, hue: hsv.h, done: { image in
             self.colorMapImage = image
-            self.colorMapLayer.frame = CGRect(origin: .zero, size: image.size)
-            self.colorMapLayer.contents = image.cgImage
+            self.colorMapLayer.frame = CGRect(origin: .zero, size: self.frame.size)
+            self.colorMapLayer.contents = image?.cgImage
         })
     }
 
@@ -233,7 +235,12 @@ public class ColorMapControl: UIControl {
 
     // MARK: - Static functions
 
-    private func colorMap(with size: CGSize, and tileSide: CGFloat, hue: CGFloat, done: @escaping ((UIImage) -> Void)) {
+    private func colorMap(with size: CGSize, and tileSide: CGFloat, hue: CGFloat, done: @escaping ((UIImage?) -> Void)) {
+        if size.width == 0 || size.height == 0 {
+            done(nil)
+            return
+        }
+
         DispatchQueue.global(qos: .userInteractive).async {
             let nbrPixelsX = size.width / tileSide
             let nbrPixelsY = size.height / tileSide
@@ -276,6 +283,10 @@ public class ColorMapControl: UIControl {
         let normalizedY = 1 - (point.y / rect.height) // Low -> dark, thus invert
         hsv.s = saturationTimingFunction?.get(t: noramlizedX) ?? noramlizedX
         hsv.v = valueTimingFunction?.get(t: normalizedY) ?? normalizedY
+
+        hsv.s = min(max(hsv.s, 0), 1)
+        hsv.v = min(max(hsv.v, 0), 1)
+
         return hsv
     }
 

@@ -65,6 +65,10 @@ extension UIColor {
 
         getRed(&r, green: &g, blue: &b, alpha: &a)
 
+        r = max(min(1, r), 0)
+        g = max(min(1, g), 0)
+        b = max(min(1, b), 0)
+
         let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
 
         return String(format: "#%06x", rgb)
