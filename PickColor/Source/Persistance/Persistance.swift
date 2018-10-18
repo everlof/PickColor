@@ -34,6 +34,7 @@ public class PickColorPersistentContainer: NSPersistentContainer {
         if !FileManager.default.fileExists(atPath: url.absoluteString) {
             try! FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: [:])
         }
+        print(url)
         return url
     }
 
@@ -71,15 +72,8 @@ public struct Persistance {
     }
 
     public static var container: PickColorPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
         let container = PickColorPersistentContainer(name: "PickColorModel")
-        let description = NSPersistentStoreDescription()
-        // description.type = NSInMemoryStoreType
+        let description = NSPersistentStoreDescription(url: PickColorPersistentContainer.defaultDirectoryURL().appendingPathComponent("db.sqlite"))
         description.type = NSSQLiteStoreType
         container.persistentStoreDescriptions = [description]
 
