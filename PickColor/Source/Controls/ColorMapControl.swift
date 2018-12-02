@@ -42,7 +42,7 @@ public class ColorMapControl: UIControl {
 
     /// This sets the timing function for "value" for all created `ColorMapControl`s
     /// See members documentation for `valueTimingFunction` for a longer description.
-    public static var defaultValueTimingFunction: SKTimingFunction? = SKTimingFunction(controlPoints: 0.6, 0.96, 0.61, 1.0)
+    public static var defaultValueTimingFunction: SKTimingFunction? = nil // SKTimingFunction(controlPoints: 0.6, 0.96, 0.61, 1.0)
 
     /// This sets the timing function for "saturation" for all created `ColorMapControl`s
     /// See members documentation for `saturationTimingFunction` for a longer description.
