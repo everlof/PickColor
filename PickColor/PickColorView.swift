@@ -71,19 +71,24 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    public func persist(color: UIColor) {
+        Persistance.save(color: color)
+    }
+
     @objc func colorMapChangedColor() {
         toolbarControl.selectedColor = colorMapControl.color
+        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
     }
 
     // MARK: - ToolbarViewDelegate
 
     public func toolbarView(_: ToolbarView, didPick color: UIColor) {
-        Persistance.save(color: color)
         delegate?.pickColorView(self, didTapSelectedColor: color)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
         colorMapControl.hue = hue
+        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {

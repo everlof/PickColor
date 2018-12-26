@@ -124,7 +124,9 @@ public class ColorMapControl: UIControl {
 
             if saturationAndValueUpdated {
                 updateMarker()
-                sendActions(for: .valueChanged)
+                if oldValue.uiColor.hex != hsv.uiColor.hex {
+                    sendActions(for: .valueChanged)
+                }
             }
         }
     }
