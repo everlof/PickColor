@@ -183,7 +183,9 @@ public class ColorMapControl: UIControl {
         if frame.size.width == 0 || frame.size.height == 0 {
             // Ignore
         } else if let prevSize = prevSize, prevSize != frame.size {
-            update()
+            // We can't send out changes because that'll
+            // change what color is actually sent out!
+            // update()
         } else if prevSize == nil {
             // If we have no previous size, our `hsv` is correct, but
             // we have never rendered the marker, so we must update the marker
