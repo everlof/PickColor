@@ -37,7 +37,13 @@ public class PickColorView: UIView, ToolbarViewDelegate {
     public let toolbarControl: ToolbarView
 
     public var selectedColor: UIColor {
-        return toolbarControl.selectedColor
+        get {
+            return toolbarControl.selectedColor
+        }
+        set {
+            toolbarControl.selectedColor = newValue
+            colorMapControl.color = newValue
+        }
     }
 
     public init(initialColor color: UIColor) {
