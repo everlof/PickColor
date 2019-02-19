@@ -37,7 +37,13 @@ public class PickColorView: UIView, ToolbarViewDelegate {
     public let toolbarControl: ToolbarView
 
     public var selectedColor: UIColor {
-        return toolbarControl.selectedColor
+        get {
+            return toolbarControl.selectedColor
+        }
+        set {
+            toolbarControl.selectedColor = newValue
+            colorMapControl.color = newValue
+        }
     }
 
     public init(initialColor color: UIColor) {
@@ -48,7 +54,7 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         toolbarControl.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
-        backgroundColor = .white
+        backgroundColor = .clear
 
         addSubview(toolbarControl)
         addSubview(colorMapControl)
@@ -73,17 +79,18 @@ public class PickColorView: UIView, ToolbarViewDelegate {
 
     @objc func colorMapChangedColor() {
         toolbarControl.selectedColor = colorMapControl.color
+        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
     }
 
     // MARK: - ToolbarViewDelegate
 
     public func toolbarView(_: ToolbarView, didPick color: UIColor) {
-        Persistance.save(color: color)
         delegate?.pickColorView(self, didTapSelectedColor: color)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
         colorMapControl.hue = hue
+        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {
