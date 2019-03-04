@@ -124,7 +124,6 @@ public class ColorMapControl: UIControl {
 
             if saturationAndValueUpdated {
                 updateMarker()
-                sendActions(for: .valueChanged)
             }
         }
     }
@@ -198,18 +197,12 @@ public class ColorMapControl: UIControl {
     }
 
     @objc private func didTap(gesture: UITapGestureRecognizer) {
-        feedbackGenerator.prepare()
         marker.center = gesture.location(in: self)
         updateMarker()
-        feedbackGenerator.selectionChanged()
+        sendActions(for: .valueChanged)
     }
 
     @objc private func didPan(gesture: UIPanGestureRecognizer) {
-        if gesture.state == .began || gesture.state == .ended {
-            feedbackGenerator.prepare()
-            feedbackGenerator.selectionChanged()
-        }
-
         if gesture.state == .changed || gesture.state == .ended {
             var location = gesture.location(in: self)
             location.x = min(max(0, location.x), frame.size.width)
@@ -217,6 +210,10 @@ public class ColorMapControl: UIControl {
             marker.center = location
             marker.editing = gesture.state != .ended
             updateMarker()
+        }
+
+        if gesture.state == .began || gesture.state == .ended {
+            sendActions(for: .valueChanged)
         }
     }
 
