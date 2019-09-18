@@ -23,7 +23,7 @@ import UIKit
 
 public extension UIColor {
 
-    public var name: String {
+    var name: String {
         var r: CGFloat = 0
         var g: CGFloat = 0
         var b: CGFloat = 0

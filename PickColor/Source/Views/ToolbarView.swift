@@ -50,7 +50,7 @@ public class ToolbarView: UIView,
 
     public var hexFont: UIFont? {
         get { return currentColorView.colorHexTextField.font }
-        set { currentColorView.colorHexTextField.font = hexFont }
+        set { currentColorView.colorHexTextField.font = newValue }
     }
 
     public var selectedColor: UIColor {

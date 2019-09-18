@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PickingColors'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'A versatile color-picker with sliders, hex-presentation, manual input and history.'
 
 # This description is used to generate tags and improve search results.
@@ -48,7 +48,7 @@ DESC
   s.preserve_paths = 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld'
   s.framework  = 'CoreData'
 
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   # s.resource_bundles = {
   #   'NameThatColorA' => ['NameThatColorA/Assets/*.png']

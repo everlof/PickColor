@@ -53,7 +53,7 @@ public struct Persistance {
             let fr = NSFetchRequest<Color>(entityName: Color.self.description())
             fr.predicate = predicate
 
-            if case let existingColor?? = try? ctx.fetch(fr).first {
+            if case let existingColor?? = ((try? ctx.fetch(fr).first) as Color??) {
                 existingColor.lastUsed = Date() as NSDate
             } else {
                 let insertedColor = NSEntityDescription.insertNewObject(forEntityName: Color.self.description(), into: ctx) as! Color

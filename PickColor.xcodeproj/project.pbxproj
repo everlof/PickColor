@@ -12,7 +12,6 @@
 		C43E12A3216B82F400146F3A /* PickColor.h in Headers */ = {isa = PBXBuildFile; fileRef = C43E1295216B82F400146F3A /* PickColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C43E12B0216B831400146F3A /* PickColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12AF216B831400146F3A /* PickColorView.swift */; };
 		C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B1216B832600146F3A /* ColorMapControl.swift */; };
-		C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */; };
 		C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */; };
 		C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */; };
 		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
@@ -51,7 +50,6 @@
 		C43E12A2216B82F400146F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C43E12AF216B831400146F3A /* PickColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickColorView.swift; sourceTree = "<group>"; };
 		C43E12B1216B832600146F3A /* ColorMapControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControl.swift; sourceTree = "<group>"; };
-		C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControlMarker.swift; sourceTree = "<group>"; };
 		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 		C43E12B3216BCC2F00146F3A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C43E12B4216BCC4400146F3A /* UIImage+Extension.swift */,
 				C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
@@ -296,10 +293,11 @@
 				TargetAttributes = {
 					C43E1291216B82F400146F3A = {
 						CreatedOnToolsVersion = 10.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1100;
 					};
 					C43E129A216B82F400146F3A = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -350,7 +348,6 @@
 				C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */,
 				C445EEEB2170FFFF00851939 /* ToolbarView.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
-				C43E12B5216BCC4400146F3A /* UIImage+Extension.swift in Sources */,
 				C445EF212175A2F800851939 /* PickColorModel.xcdatamodeld in Sources */,
 				C445EEB8216E277B00851939 /* HueSliderControl.swift in Sources */,
 				C445EF2C2175D3E600851939 /* NameList.swift in Sources */,
@@ -520,6 +517,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = PickColor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -530,7 +528,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -548,6 +546,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = PickColor/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -557,7 +556,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -576,7 +575,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.everlof.PickColorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -595,7 +594,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.everlof.PickColorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
