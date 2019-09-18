@@ -23,10 +23,6 @@
 		C445EEEB2170FFFF00851939 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEEA2170FFFF00851939 /* ToolbarView.swift */; };
 		C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF2217228B300851939 /* SKTimingFunction.swift */; };
 		C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */; };
-		C445EF212175A2F800851939 /* PickColorModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C445EF1F2175A2F800851939 /* PickColorModel.xcdatamodeld */; };
-		C445EF232175A31400851939 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EF222175A31400851939 /* Persistance.swift */; };
-		C445EF262175C64000851939 /* Color+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EF242175C64000851939 /* Color+CoreDataClass.swift */; };
-		C445EF272175C64000851939 /* Color+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EF252175C64000851939 /* Color+CoreDataProperties.swift */; };
 		C445EF2A2175D3D700851939 /* NameThatColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EF292175D3D700851939 /* NameThatColor.swift */; };
 		C445EF2C2175D3E600851939 /* NameList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EF2B2175D3E600851939 /* NameList.swift */; };
 /* End PBXBuildFile section */
@@ -61,10 +57,6 @@
 		C445EEEA2170FFFF00851939 /* ToolbarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		C445EEF2217228B300851939 /* SKTimingFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTimingFunction.swift; sourceTree = "<group>"; };
 		C445EEF621739E0C00851939 /* ColorMapControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControlMarker.swift; sourceTree = "<group>"; };
-		C445EF202175A2F800851939 /* PickColor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PickColor.xcdatamodel; sourceTree = "<group>"; };
-		C445EF222175A31400851939 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
-		C445EF242175C64000851939 /* Color+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+CoreDataClass.swift"; sourceTree = "<group>"; };
-		C445EF252175C64000851939 /* Color+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C445EF292175D3D700851939 /* NameThatColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameThatColor.swift; sourceTree = "<group>"; };
 		C445EF2B2175D3E600851939 /* NameList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,7 +128,6 @@
 				C43E12B3216BCC2F00146F3A /* Extensions */,
 				C445EF1D2175141B00851939 /* Markers */,
 				C445EF692177182700851939 /* Models */,
-				C445EF1E2175A27A00851939 /* Persistance */,
 				C445EF682177181E00851939 /* Views */,
 			);
 			path = Source;
@@ -176,16 +167,6 @@
 			path = Markers;
 			sourceTree = "<group>";
 		};
-		C445EF1E2175A27A00851939 /* Persistance */ = {
-			isa = PBXGroup;
-			children = (
-				C445EF6A2177184F00851939 /* Classes */,
-				C445EF1F2175A2F800851939 /* PickColorModel.xcdatamodeld */,
-				C445EF222175A31400851939 /* Persistance.swift */,
-			);
-			path = Persistance;
-			sourceTree = "<group>";
-		};
 		C445EF282175D3B800851939 /* ColorName */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,15 +201,6 @@
 				C445EEBB216E53EF00851939 /* HSVColor.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		C445EF6A2177184F00851939 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				C445EF242175C64000851939 /* Color+CoreDataClass.swift */,
-				C445EF252175C64000851939 /* Color+CoreDataProperties.swift */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,23 +313,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C445EF262175C64000851939 /* Color+CoreDataClass.swift in Sources */,
 				C43E12B0216B831400146F3A /* PickColorView.swift in Sources */,
 				C445EF2A2175D3D700851939 /* NameThatColor.swift in Sources */,
 				C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */,
 				C445EEF721739E0C00851939 /* ColorMapControlMarker.swift in Sources */,
 				C445EEEB2170FFFF00851939 /* ToolbarView.swift in Sources */,
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
-				C445EF212175A2F800851939 /* PickColorModel.xcdatamodeld in Sources */,
 				C445EEB8216E277B00851939 /* HueSliderControl.swift in Sources */,
 				C445EF2C2175D3E600851939 /* NameList.swift in Sources */,
 				C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */,
 				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
-				C445EF272175C64000851939 /* Color+CoreDataProperties.swift in Sources */,
 				C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */,
 				C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,
-				C445EF232175A31400851939 /* Persistance.swift in Sources */,
 				C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */,
 				C445EEAF216E250600851939 /* ColorTextField.swift in Sources */,
 			);
@@ -630,19 +598,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C445EF1F2175A2F800851939 /* PickColorModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C445EF202175A2F800851939 /* PickColor.xcdatamodel */,
-			);
-			currentVersion = C445EF202175A2F800851939 /* PickColor.xcdatamodel */;
-			path = PickColorModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = C43E1289216B82F400146F3A /* Project object */;
 }
