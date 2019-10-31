@@ -14,9 +14,7 @@
 		C43E12B2216B832600146F3A /* ColorMapControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12B1216B832600146F3A /* ColorMapControl.swift */; };
 		C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */; };
 		C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */; };
-		C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */; };
 		C445EEAF216E250600851939 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEAE216E250600851939 /* ColorTextField.swift */; };
-		C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */; };
 		C445EEB6216E267400851939 /* CurrentColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB5216E267400851939 /* CurrentColorView.swift */; };
 		C445EEB8216E277B00851939 /* HueSliderControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEB7216E277B00851939 /* HueSliderControl.swift */; };
 		C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445EEBB216E53EF00851939 /* HSVColor.swift */; };
@@ -48,9 +46,7 @@
 		C43E12B1216B832600146F3A /* ColorMapControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMapControl.swift; sourceTree = "<group>"; };
 		C43E12E0216CCC3800146F3A /* HueSliderControlMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControlMarker.swift; sourceTree = "<group>"; };
 		C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorsCollectionView.swift; sourceTree = "<group>"; };
 		C445EEAE216E250600851939 /* ColorTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
-		C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		C445EEB5216E267400851939 /* CurrentColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentColorView.swift; sourceTree = "<group>"; };
 		C445EEB7216E277B00851939 /* HueSliderControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueSliderControl.swift; sourceTree = "<group>"; };
 		C445EEBB216E53EF00851939 /* HSVColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSVColor.swift; sourceTree = "<group>"; };
@@ -122,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				C445EEEC2172254000851939 /* Bezier */,
-				C445EEB0216E25BB00851939 /* CollectionView */,
 				C445EF282175D3B800851939 /* ColorName */,
 				C445EF672177180300851939 /* Controls */,
 				C43E12B3216BCC2F00146F3A /* Extensions */,
@@ -139,15 +134,6 @@
 				C43E12E4216CE2DD00146F3A /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		C445EEB0216E25BB00851939 /* CollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				C445EEB1216E25CD00851939 /* RecentColorCollectionViewCell.swift */,
-				C43E12E6216D298D00146F3A /* RecentColorsCollectionView.swift */,
-			);
-			path = CollectionView;
 			sourceTree = "<group>";
 		};
 		C445EEEC2172254000851939 /* Bezier */ = {
@@ -321,8 +307,6 @@
 				C43E12E5216CE2DD00146F3A /* UIColor+Extension.swift in Sources */,
 				C445EEB8216E277B00851939 /* HueSliderControl.swift in Sources */,
 				C445EF2C2175D3E600851939 /* NameList.swift in Sources */,
-				C445EEB2216E25CD00851939 /* RecentColorCollectionViewCell.swift in Sources */,
-				C43E12E7216D298D00146F3A /* RecentColorsCollectionView.swift in Sources */,
 				C445EEF3217228B300851939 /* SKTimingFunction.swift in Sources */,
 				C43E12E1216CCC3800146F3A /* HueSliderControlMarker.swift in Sources */,
 				C445EEBC216E53EF00851939 /* HSVColor.swift in Sources */,

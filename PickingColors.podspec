@@ -43,9 +43,9 @@ DESC
 
   s.ios.deployment_target = '12.0'
 
-  s.source_files  = 'PickColor/**/*.swift', 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld', 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld/*.xcdatamodel'
-  s.resources = [ 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld','PickColor/Source/Persistance/PickColorModel.xcdatamodeld/*.xcdatamodel']
-  s.preserve_paths = 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld'
+  s.source_files  = 'PickColor/**/*.swift'
+  #s.resources = [ 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld','PickColor/Source/Persistance/PickColorModel.xcdatamodeld/*.xcdatamodel']
+  #s.preserve_paths = 'PickColor/Source/Persistance/PickColorModel.xcdatamodeld'
   s.framework  = 'CoreData'
 
   s.swift_version = '5.0'

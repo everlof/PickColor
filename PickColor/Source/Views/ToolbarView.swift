@@ -30,7 +30,6 @@ public protocol ToolbarViewDelegate: class {
 }
 
 public class ToolbarView: UIView,
-    RecentColorsCollectionViewDelegate,
     ColorTextFieldDelegate,
     CurrentColorViewDelegate {
 
@@ -41,8 +40,6 @@ public class ToolbarView: UIView,
     public weak var delegate: ToolbarViewDelegate?
 
     public let currentColorView: CurrentColorView
-
-    public let recentColorsCollectionView = RecentColorsCollectionView()
 
     public let colorNameLabel = UILabel()
 
@@ -79,14 +76,9 @@ public class ToolbarView: UIView,
 
         translatesAutoresizingMaskIntoConstraints = false
         hueSlider.translatesAutoresizingMaskIntoConstraints = false
-        recentColorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
         if showCurrentColor {
             addSubview(currentColorView)
-        }
-
-        if showRecentColors {
-            addSubview(recentColorsCollectionView)
         }
 
         addSubview(hueSlider)
@@ -97,28 +89,14 @@ public class ToolbarView: UIView,
             currentColorView.colorHexTextField.colorTextFieldDelegate = self
         }
 
-        recentColorsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
-        recentColorsCollectionView.recentColorDelegate = self
-
         if showCurrentColor {
             currentColorView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
             currentColorView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
-            currentColorView.rightAnchor.constraint(equalTo: recentColorsCollectionView.leftAnchor).isActive = true
-        } else if showRecentColors {
-            recentColorsCollectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 18).isActive = true
-        }
-
-        if showRecentColors {
-            recentColorsCollectionView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
-            recentColorsCollectionView.heightAnchor.constraint(equalToConstant: 44).isActive = true
-            recentColorsCollectionView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+            currentColorView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         }
 
         if showCurrentColor {
             currentColorView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor, constant: -20).isActive = true
-            recentColorsCollectionView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor, constant: -20).isActive = true
-        } else if showRecentColors {
-            recentColorsCollectionView.bottomAnchor.constraint(equalTo: hueSlider.topAnchor).isActive = true
         } else {
             hueSlider.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         }
