@@ -29,7 +29,7 @@ public protocol PickColorViewDelegate: class {
 }
 
 public class PickColorView: UIView, ToolbarViewDelegate {
-
+    
     public weak var delegate: PickColorViewDelegate?
 
     public let colorMapControl: ColorMapControl
@@ -89,8 +89,13 @@ public class PickColorView: UIView, ToolbarViewDelegate {
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
+        colorMapControl.hue = hue   
+    }
+    public func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat, withIntentEmit: Bool) {
         colorMapControl.hue = hue
-        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
+        if withIntentEmit {
+            self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
+        }
     }
 
     public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {

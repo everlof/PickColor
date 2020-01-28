@@ -23,6 +23,10 @@
 
 import Foundation
 
+protocol HueSliderControlDelegate: class {
+    func hueSliderControl(_: HueSliderControl, didUpdateHueWithIntentEmit: Bool)
+}
+
 public class HueSliderControl: UIControl {
 
     // MARK: - Public variables
@@ -32,6 +36,8 @@ public class HueSliderControl: UIControl {
             updateMarker()
         }
     }
+    
+    internal weak var delegate: HueSliderControlDelegate?
 
     // MARK: - Private variables
 
@@ -95,12 +101,14 @@ public class HueSliderControl: UIControl {
         if gesture.state == .ended {
             feedbackGenerator.prepare()
             let tapPoint = gesture.location(ofTouch: 0, in: self)
-            update(tapPoint: tapPoint)
+            update(tapPoint: tapPoint, shouldSendActions: true)
             updateMarker()
             feedbackGenerator.selectionChanged()
         }
     }
 
+    var lastTapPoint: CGPoint?
+    
     @objc func handlePan(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
             feedbackGenerator.prepare()
@@ -112,21 +120,25 @@ public class HueSliderControl: UIControl {
                 feedbackGenerator.prepare()
                 cursor.editing = false
                 feedbackGenerator.selectionChanged()
+                if let lastTapPoint = lastTapPoint {
+                    update(tapPoint: lastTapPoint, shouldSendActions: true)
+                }
             } else {
                 let tapPoint = gesture.location(ofTouch: 0, in: self)
-                update(tapPoint: tapPoint)
+                update(tapPoint: tapPoint, shouldSendActions: gesture.state == .ended)
                 updateMarker()
                 cursor.editing = true
+                lastTapPoint = tapPoint
             }
         }
     }
 
-    func update(tapPoint: CGPoint) {
+    func update(tapPoint: CGPoint, shouldSendActions: Bool) {
         var tapPointInSlider = CGPoint(x: tapPoint.x - controlFrame.origin.x, y: tapPoint.y)
         tapPointInSlider.x = min(tapPointInSlider.x, controlFrame.size.width)
         tapPointInSlider.x = max(tapPointInSlider.x, 0)
         hue = tapPointInSlider.x / controlFrame.size.width
-        sendActions(for: .valueChanged)
+        delegate?.hueSliderControl(self, didUpdateHueWithIntentEmit: shouldSendActions)
     }
 
     func updateMarker() {

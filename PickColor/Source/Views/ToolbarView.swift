@@ -23,7 +23,7 @@
 import UIKit
 
 public protocol ToolbarViewDelegate: class {
-    func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat)
+    func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat, withIntentEmit: Bool)
     func toolbarView(_: ToolbarView, didSelectRecentColor color: UIColor)
     func toolbarView(_: ToolbarView, didManuallyEnterColor color: UIColor)
     func toolbarView(_: ToolbarView, didPick color: UIColor)
@@ -31,7 +31,8 @@ public protocol ToolbarViewDelegate: class {
 
 public class ToolbarView: UIView,
     ColorTextFieldDelegate,
-    CurrentColorViewDelegate {
+    CurrentColorViewDelegate,
+    HueSliderControlDelegate {
 
     public var showCurrentColor: Bool = false
 
@@ -104,17 +105,11 @@ public class ToolbarView: UIView,
         hueSlider.leftAnchor.constraint(equalTo: leftAnchor, constant: 14).isActive = true
         hueSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -14).isActive = true
         hueSlider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24).isActive = true
-
-        hueSlider.addTarget(self, action: #selector(hueChanged), for: .valueChanged)
+        hueSlider.delegate = self
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc private func hueChanged() {
-        hsv.h = hueSlider.hue
-        delegate?.toolbarView(self, didUpdateHue: hueSlider.hue)
     }
 
     // MARK: - RecentColorsCollectionViewDelegate
@@ -137,4 +132,11 @@ public class ToolbarView: UIView,
         delegate?.toolbarView(self, didPick: color)
     }
 
+    // MARK: - HueSliderControlDelegate
+    
+    func hueSliderControl(_: HueSliderControl, didUpdateHueWithIntentEmit: Bool) {
+        hsv.h = hueSlider.hue
+        delegate?.toolbarView(self, didUpdateHue: hueSlider.hue, withIntentEmit: didUpdateHueWithIntentEmit)
+    }
+    
 }

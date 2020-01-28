@@ -212,7 +212,7 @@ public class ColorMapControl: UIControl {
             updateMarker()
         }
 
-        if gesture.state == .began || gesture.state == .ended {
+        if gesture.state == .ended {
             sendActions(for: .valueChanged)
         }
     }
