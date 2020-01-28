@@ -57,6 +57,7 @@ public class ToolbarView: UIView,
         }
         set {
             hsv = HSVColor(uiColor: newValue)
+            hueSlider.hue = hsv.h
         }
     }
 
