@@ -73,7 +73,7 @@ public class ColorMapControl: UIControl {
         }
         set {
             marker.center = point(from: newValue, in: frame)
-            hsv = HSVColor(uiColor: newValue)
+            set(hsv: HSVColor(uiColor: newValue))
         }
     }
 
@@ -106,27 +106,7 @@ public class ColorMapControl: UIControl {
     
     // MARK: Private variables
 
-    private var hsv: HSVColor {
-        didSet {
-            let hueUpdated = oldValue.h != hsv.h
-            let saturationAndValueUpdated = oldValue.s != hsv.s || oldValue.v != hsv.v
-
-            if hueUpdated {
-                updateColorMap()
-                if !saturationAndValueUpdated {
-                    // If we only updated Hue (most likely from
-                    // the hue slider), we must update the marker
-                    // here, because `updateMarker` won't be
-                    // called when `saturationAndValueUpdated` is `false`.
-                    marker.color = hsv.uiColor
-                }
-            }
-
-            if saturationAndValueUpdated {
-                updateMarker()
-            }
-        }
-    }
+    private var hsv: HSVColor
 
     private let marker: ColorMapControlMarker
 
@@ -167,6 +147,28 @@ public class ColorMapControl: UIControl {
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    public func set(hsv: HSVColor, fromUpdateMarker: Bool = false) {
+        let hueUpdated = self.hsv.h != hsv.h
+        let saturationAndValueUpdated = self.hsv.s != hsv.s || self.hsv.v != hsv.v
+        self.hsv = hsv
+        
+        if hueUpdated {
+            updateColorMap()
+            if !saturationAndValueUpdated {
+                // If we only updated Hue (most likely from
+                // the hue slider), we must update the marker
+                // here, because `updateMarker` won't be
+                // called when `saturationAndValueUpdated` is `false`.
+                marker.color = hsv.uiColor
+            }
+        }
+
+        if saturationAndValueUpdated && !fromUpdateMarker {
+            updateMarker()
+        }
     }
 
     public override func layoutSubviews() {
@@ -226,7 +228,7 @@ public class ColorMapControl: UIControl {
     }
 
     private func updateMarker() {
-        hsv = hsvFrom(point: marker.center, in: frame, withHue: self.hsv.h)
+        set(hsv: hsvFrom(point: marker.center, in: frame, withHue: self.hsv.h), fromUpdateMarker: true)
         marker.color = hsv.uiColor
     }
 
