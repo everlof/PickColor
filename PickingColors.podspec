@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PickingColors'
-  s.version          = '0.3.4'
+  s.version          = '0.3.5'
   s.summary          = 'A versatile color-picker with sliders, hex-presentation, manual input and history.'
 
 # This description is used to generate tags and improve search results.
