@@ -293,7 +293,15 @@ public class ColorMapControl: UIControl {
         let hsv = HSVColor(uiColor: color)
         let normalizedX = saturationTimingFunction?.t(for: hsv.s) ?? hsv.s
         let normalizedY = valueTimingFunction?.t(for: hsv.v) ?? hsv.v
-        return CGPoint(x: normalizedX * rect.width, y: (1 - normalizedY) * rect.height)
+
+        let x = normalizedX * rect.width
+        let y = (1 - normalizedY) * rect.height
+
+        if x.isNaN || y.isNaN {
+            return .zero
+        } else {
+            return CGPoint(x: x, y: y)
+        }
     }
 
 }
