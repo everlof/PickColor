@@ -3,6 +3,9 @@ import PackageDescription
 
 let package = Package(
     name: "PickColor",
+    platforms: [
+        .iOS(.v13),
+    ],
     products: [
         .library(name: "PickColor", targets: ["PickColor"])
     ],
