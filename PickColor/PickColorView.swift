@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 import Foundation
+import UIKit
 
 public protocol PickColorViewDelegate: class {
     func pickColorView(_: PickColorView, didTapSelectedColor: UIColor)

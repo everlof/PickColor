@@ -22,6 +22,7 @@
 
 
 import Foundation
+import UIKit
 
 protocol HueSliderControlDelegate: class {
     func hueSliderControl(_: HueSliderControl, didUpdateHueWithIntentEmit: Bool)
