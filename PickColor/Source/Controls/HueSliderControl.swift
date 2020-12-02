@@ -25,18 +25,14 @@ import Foundation
 import UIKit
 
 protocol HueSliderControlDelegate: class {
-    func hueSliderControl(_: HueSliderControl, didUpdateHueWithIntentEmit: Bool)
+    func hueSliderControlUpdated(_: HueSliderControl)
 }
 
 public class HueSliderControl: UIControl {
 
     // MARK: - Public variables
 
-    public var hue: CGFloat {
-        didSet {
-            updateMarker()
-        }
-    }
+    private(set) var hue: CGFloat
     
     internal weak var delegate: HueSliderControlDelegate?
 
@@ -49,6 +45,8 @@ public class HueSliderControl: UIControl {
     private var controlFrame: CGRect = .zero
 
     private let cursor: HueSliderControlMarker
+
+    private var lastTapPoint: CGPoint?
 
     private lazy var sliderLayer: CAGradientLayer = {
         return CAGradientLayer(layer: self.layer)
@@ -74,10 +72,10 @@ public class HueSliderControl: UIControl {
         backgroundColor = .clear
         addSubview(cursor)
 
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:)))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handle(gesture:)))
         addGestureRecognizer(tapGestureRecognizer)
 
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(gesture:)))
         addGestureRecognizer(panGestureRecognizer)
     }
 
@@ -92,28 +90,24 @@ public class HueSliderControl: UIControl {
         controlFrame = renderingFrame.insetBy(dx: 8, dy: 0)
         sliderLayer.frame = renderingFrame
         sliderLayer.cornerRadius = renderingFrame.size.height / 2
-        sliderLayer.colors = stride(from: 0, to: 1, by: 0.1).map {
+        sliderLayer.colors = stride(from: 0, through: 1, by: 0.1).map {
             UIColor(hue: $0, saturation: 1.0, brightness: 1.0, alpha: 1.0).cgColor
         }
-        updateMarker()
+        updateMarkerPositionFromCurrentHue()
     }
 
-    @objc func handleTap(gesture: UITapGestureRecognizer) {
-        if gesture.state == .ended {
-            feedbackGenerator.prepare()
-            let tapPoint = gesture.location(ofTouch: 0, in: self)
-            update(tapPoint: tapPoint, shouldSendActions: true)
-            updateMarker()
-            feedbackGenerator.selectionChanged()
-        }
-    }
+    private var updateTimer: Timer?
 
-    var lastTapPoint: CGPoint?
-    
-    @objc func handlePan(gesture: UIPanGestureRecognizer) {
+    @objc private func handle(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
             feedbackGenerator.prepare()
             feedbackGenerator.selectionChanged()
+        }
+
+        if gesture.state == .began {
+            updateTimer = Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true, block: { _ in
+                self.sendActions(for: .valueChanged)
+            })
         }
 
         if gesture.state == .changed || gesture.state == .ended {
@@ -122,27 +116,43 @@ public class HueSliderControl: UIControl {
                 cursor.editing = false
                 feedbackGenerator.selectionChanged()
                 if let lastTapPoint = lastTapPoint {
-                    update(tapPoint: lastTapPoint, shouldSendActions: true)
+                    set(hue: hueFrom(point: lastTapPoint), shouldSendActions: true)
                 }
             } else {
                 let tapPoint = gesture.location(ofTouch: 0, in: self)
-                update(tapPoint: tapPoint, shouldSendActions: gesture.state == .ended)
-                updateMarker()
+                set(hue: hueFrom(point: tapPoint), shouldSendActions: gesture.state == .ended)
+                updateMarkerPositionFromCurrentHue()
                 cursor.editing = true
                 lastTapPoint = tapPoint
             }
         }
+
+        if gesture.state == .ended || gesture.state == .cancelled {
+            updateTimer?.invalidate()
+            updateTimer = nil
+        }
     }
 
-    func update(tapPoint: CGPoint, shouldSendActions: Bool) {
-        var tapPointInSlider = CGPoint(x: tapPoint.x - controlFrame.origin.x, y: tapPoint.y)
+    func set(hue: CGFloat) {
+        set(hue: hue, shouldSendActions: false)
+    }
+
+    private func set(hue: CGFloat, shouldSendActions: Bool) {
+        self.hue = hue
+        updateMarkerPositionFromCurrentHue()
+        if shouldSendActions {
+            sendActions(for: .valueChanged)
+        }
+    }
+
+    private func hueFrom(point: CGPoint) -> CGFloat {
+        var tapPointInSlider = CGPoint(x: point.x - controlFrame.origin.x, y: point.y)
         tapPointInSlider.x = min(tapPointInSlider.x, controlFrame.size.width)
         tapPointInSlider.x = max(tapPointInSlider.x, 0)
-        hue = tapPointInSlider.x / controlFrame.size.width
-        delegate?.hueSliderControl(self, didUpdateHueWithIntentEmit: shouldSendActions)
+        return tapPointInSlider.x / controlFrame.size.width
     }
 
-    func updateMarker() {
+    private func updateMarkerPositionFromCurrentHue() {
         cursor.center = CGPoint(x: hue * controlFrame.size.width + controlFrame.origin.x, y: frame.height / 2)
     }
 

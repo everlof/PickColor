@@ -38,75 +38,31 @@ import UIKit
 /// you can read the code in `PickColorView` to see how it's used from there.
 public class ColorMapControl: UIControl {
 
-    // MARK: Static variables
-
-    /// This sets the timing function for "value" for all created `ColorMapControl`s
-    /// See members documentation for `valueTimingFunction` for a longer description.
-    public static var defaultValueTimingFunction: SKTimingFunction? = nil // SKTimingFunction(controlPoints: 0.6, 0.96, 0.61, 1.0)
-
-    /// This sets the timing function for "saturation" for all created `ColorMapControl`s
-    /// See members documentation for `saturationTimingFunction` for a longer description.
-    public static var defaultSaturationTimingFunction: SKTimingFunction? = nil
-
-    // MARK: Public variables
-
-    /// This sets the function used to calculate the value of `value` as the
-    /// gradient color fades from y=0 to y=frame.height.
-    ///
-    /// Use http://cubic-bezier.com to play with the control-points to find a good value
-    /// if you're not satisfied with the default ones provided by that library.
-    public var valueTimingFunction: SKTimingFunction? = ColorMapControl.defaultValueTimingFunction
-
-    /// This sets the function used to calculate the value of `saturation` as the
-    /// gradient color fades from x=0 to x=frame.width.
-    ///
-    /// Use http://cubic-bezier.com to play with the control-points to find a good value
-    /// if you're not satisfied with the default ones provided by that library.
-    public var saturationTimingFunction: SKTimingFunction? = ColorMapControl.defaultSaturationTimingFunction
-
-    /// The color that is currently selected.
-    /// This is evaluated using the current "hue" and the values
-    /// of "value" and "saturation" (which depends on the markers position).
-    public var color: UIColor {
-        get {
-            return HSVColor(h: hsv.h, s: hsv.s, v: hsv.v).uiColor
-        }
-        set {
-            marker.center = point(from: newValue, in: frame)
-            set(hsv: HSVColor(uiColor: newValue))
-        }
-    }
-
     /// The "hue" of the whole color map, changing this value
     /// will result in the whole map being redrawn with the new hue.
     ///
     /// A value in the range 0 - 1
-    public var hue: CGFloat {
-        get { return hsv.h }
-        set { hsv.h = newValue }
-    }
+    private(set) var hue: CGFloat
 
     /// The "saturation" of the color map. This is the saturation
     /// that is currently selected by the marker in the view.
     ///
     /// A value in the range 0 - 1
-    public var saturation: CGFloat {
-        get { return hsv.s }
-        set { hsv.s = newValue }
-    }
+    private(set) var saturation: CGFloat
 
     /// The "value" of the color map. This is the value
     /// that is currently selected by the marker in the view.
     ///
     /// A value in the range 0 - 1
-    public var value: CGFloat {
-        get { return hsv.v }
-        set { hsv.v = newValue }
-    }
-    
+    private(set) var value: CGFloat
+
     // MARK: Private variables
 
-    private var hsv: HSVColor
+    private var updateTimer: Timer?
+
+    private var hsv: HSVColor {
+        return HSVColor(h: hue, s: saturation, v: value)
+    }
 
     private let marker: ColorMapControlMarker
 
@@ -125,7 +81,10 @@ public class ColorMapControl: UIControl {
     private var prevSize: CGSize?
 
     public init(color: UIColor, tileSide: CGFloat = 4) {
-        self.hsv = HSVColor(uiColor: color)
+        let hsv = HSVColor(uiColor: color)
+        self.hue = hsv.h
+        self.saturation = hsv.s
+        self.value = hsv.v
         self.marker = ColorMapControlMarker(color: color)
         self.tileSide = tileSide
 
@@ -137,10 +96,10 @@ public class ColorMapControl: UIControl {
 
         // Setup gesture recognizers
         addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.addTarget(self, action: #selector(didPan(gesture:)))
+        panGestureRecognizer.addTarget(self, action: #selector(handle(gesture:)))
 
         addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(didTap(gesture:)))
+        tapGestureRecognizer.addTarget(self, action: #selector(handle(gesture:)))
 
         addSubview(marker)
     }
@@ -148,26 +107,32 @@ public class ColorMapControl: UIControl {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    public func set(hsv: HSVColor, fromUpdateMarker: Bool = false) {
-        let hueUpdated = self.hsv.h != hsv.h
-        let saturationAndValueUpdated = self.hsv.s != hsv.s || self.hsv.v != hsv.v
-        self.hsv = hsv
-        
-        if hueUpdated {
-            updateColorMap()
-            if !saturationAndValueUpdated {
-                // If we only updated Hue (most likely from
-                // the hue slider), we must update the marker
-                // here, because `updateMarker` won't be
-                // called when `saturationAndValueUpdated` is `false`.
-                marker.color = hsv.uiColor
-            }
-        }
 
-        if saturationAndValueUpdated && !fromUpdateMarker {
-            updateMarker()
+    /// Set saturation and value of this control, updates the markers position to match the values provided
+    /// - Parameters:
+    ///   - saturation: saturation to move marker to
+    ///   - value: value to move marker to
+    func set(saturation: CGFloat, andValue value: CGFloat) {
+        self.saturation = saturation
+        self.value = value
+        marker.center = point(from: hsv, in: frame)
+        marker.color = hsv.uiColor
+    }
+
+    /// Set the hue of the whole color-map shown currently
+    /// - Parameter hue: hue to change the whole color-map to
+    func set(hue: CGFloat) {
+        self.hue = hue
+        updateColorMap()
+        marker.color = hsv.uiColor
+    }
+
+    private func setSaturationAndValueFromLocation(location: CGPoint, shouldSendActions: Bool) {
+        let hsv = hsvFrom(point: location, in: frame, withHue: hue)
+        saturation = hsv.s
+        value = hsv.v
+        if shouldSendActions {
+            sendActions(for: .valueChanged)
         }
     }
 
@@ -176,7 +141,7 @@ public class ColorMapControl: UIControl {
 
         let update = {
             self.updateColorMap()
-            self.updateMarker()
+            self.marker.color = self.hsv.uiColor
         }
 
         if frame.size.width == 0 || frame.size.height == 0 {
@@ -187,35 +152,34 @@ public class ColorMapControl: UIControl {
             // If we have no previous size, our `hsv` is correct, but
             // we have never rendered the marker, so we must update the marker
             // with a position corresponding to our current `hsv`
-            marker.center = point(from: HSVColor(h: hsv.h, s: hsv.s, v: hsv.v).uiColor, in: frame)
+            marker.center = point(from: HSVColor(h: hsv.h, s: hsv.s, v: hsv.v), in: frame)
             update()
         }
 
         prevSize = frame.size
     }
 
-    public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
-    }
+    @objc private func handle(gesture: UIPanGestureRecognizer) {
+        if gesture.state == .began {
+            updateTimer = Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true, block: { _ in
+                self.sendActions(for: .valueChanged)
+            })
+        }
 
-    @objc private func didTap(gesture: UITapGestureRecognizer) {
-        marker.center = gesture.location(in: self)
-        updateMarker()
-        sendActions(for: .valueChanged)
-    }
-
-    @objc private func didPan(gesture: UIPanGestureRecognizer) {
         if gesture.state == .changed || gesture.state == .ended {
             var location = gesture.location(in: self)
             location.x = min(max(0, location.x), frame.size.width)
             location.y = min(max(0, location.y), frame.size.height)
+
             marker.center = location
-            marker.editing = gesture.state != .ended
-            updateMarker()
+            setSaturationAndValueFromLocation(location: location, shouldSendActions: gesture.state == .ended)
+            marker.color = hsv.uiColor
         }
 
-        if gesture.state == .ended {
-            sendActions(for: .valueChanged)
+        marker.editing = gesture.state != .ended
+        if gesture.state == .ended || gesture.state == .cancelled {
+            updateTimer?.invalidate()
+            updateTimer = nil
         }
     }
 
@@ -226,13 +190,6 @@ public class ColorMapControl: UIControl {
             self.colorMapLayer.contents = image?.cgImage
         })
     }
-
-    private func updateMarker() {
-        set(hsv: hsvFrom(point: marker.center, in: frame, withHue: self.hsv.h), fromUpdateMarker: true)
-        marker.color = hsv.uiColor
-    }
-
-    // MARK: - Static functions
 
     private func colorMap(with size: CGSize, and tileSide: CGFloat, hue: CGFloat, done: @escaping ((UIImage?) -> Void)) {
         if size.width == 0 || size.height == 0 {
@@ -252,12 +209,10 @@ public class ColorMapControl: UIControl {
             var hsvColor = HSVColor(h: hue, s: 0, v: 0)
             for y in stride(from: 0, to: nbrPixelsY, by: 1) {
                 let v =  1 - (y / nbrPixelsY)
-                hsvColor.v = self.valueTimingFunction?.get(t: v) ?? v
-
+                hsvColor.v = v
                 for x in stride(from: 0, to: nbrPixelsX, by: 1) {
                     let s = x / nbrPixelsX
-                    hsvColor.s = self.saturationTimingFunction?.get(t: s) ?? s
-
+                    hsvColor.s = s
                     context.setFillColor(hsvColor.uiColor.cgColor)
                     context.fill(CGRect(x: tileSide * x + imageRect.origin.x,
                                         y: tileSide * y + imageRect.origin.y,
@@ -280,8 +235,8 @@ public class ColorMapControl: UIControl {
         hsv.h = hue
         let noramlizedX = point.x / rect.width
         let normalizedY = 1 - (point.y / rect.height) // Low -> dark, thus invert
-        hsv.s = saturationTimingFunction?.get(t: noramlizedX) ?? noramlizedX
-        hsv.v = valueTimingFunction?.get(t: normalizedY) ?? normalizedY
+        hsv.s = noramlizedX
+        hsv.v = normalizedY
 
         hsv.s = min(max(hsv.s, 0), 1)
         hsv.v = min(max(hsv.v, 0), 1)
@@ -289,10 +244,9 @@ public class ColorMapControl: UIControl {
         return hsv
     }
 
-    private func point(from color: UIColor, in rect: CGRect) -> CGPoint {
-        let hsv = HSVColor(uiColor: color)
-        let normalizedX = saturationTimingFunction?.t(for: hsv.s) ?? hsv.s
-        let normalizedY = valueTimingFunction?.t(for: hsv.v) ?? hsv.v
+    private func point(from hsv: HSVColor, in rect: CGRect) -> CGPoint {
+        let normalizedX = hsv.s
+        let normalizedY = hsv.v
 
         let x = normalizedX * rect.width
         let y = (1 - normalizedY) * rect.height

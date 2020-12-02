@@ -23,27 +23,31 @@
 import Foundation
 import UIKit
 
-public protocol PickColorViewDelegate: class {
-    func pickColorView(_: PickColorView, didTapSelectedColor: UIColor)
-    func pickColorView(_: PickColorView, didPickRecentColor: UIColor)
-    func pickColorView(_: PickColorView, didManuallyEnterColor: UIColor)
-}
+public class PickColorView: UIControl {
 
-public class PickColorView: UIView, ToolbarViewDelegate {
-    
-    public weak var delegate: PickColorViewDelegate?
+    private let colorMapControl: ColorMapControl
 
-    public let colorMapControl: ColorMapControl
+    private let hueSlider: HueSliderControl
 
-    public let toolbarControl: ToolbarView
+    private var lastColor: UIColor? {
+        didSet {
+            if lastColor != oldValue {
+                sendActions(for: .valueChanged)
+            }
+        }
+    }
 
-    public var selectedColor: UIColor {
+    public var color: UIColor {
         get {
-            return toolbarControl.selectedColor
+            return HSVColor(h: hueSlider.hue,
+                            s: colorMapControl.saturation,
+                            v: colorMapControl.value).uiColor
         }
         set {
-            toolbarControl.selectedColor = newValue
-            colorMapControl.color = newValue
+            let new = HSVColor(uiColor: newValue)
+            hueSlider.set(hue: new.h)
+            colorMapControl.set(saturation: new.s, andValue: new.v)
+            colorMapControl.set(hue: new.h)
         }
     }
 
@@ -51,62 +55,41 @@ public class PickColorView: UIView, ToolbarViewDelegate {
         colorMapControl = ColorMapControl(color: color)
         colorMapControl.translatesAutoresizingMaskIntoConstraints = false
 
-        toolbarControl = ToolbarView(selectedColor: color)
-        toolbarControl.translatesAutoresizingMaskIntoConstraints = false
+        hueSlider = HueSliderControl(color: color)
+        hueSlider.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
         backgroundColor = .clear
 
-        addSubview(toolbarControl)
+        addSubview(hueSlider)
         addSubview(colorMapControl)
 
-        toolbarControl.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        toolbarControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        toolbarControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        hueSlider.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
+        hueSlider.leftAnchor.constraint(equalTo: leftAnchor, constant: 14).isActive = true
+        hueSlider.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        hueSlider.heightAnchor.constraint(equalToConstant: 16).isActive = true
 
-        colorMapControl.topAnchor.constraint(equalTo: toolbarControl.bottomAnchor).isActive = true
+        colorMapControl.topAnchor.constraint(equalTo: hueSlider.bottomAnchor, constant: 24).isActive = true
 
         colorMapControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         colorMapControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         colorMapControl.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
-        colorMapControl.addTarget(self, action: #selector(colorMapChangedColor), for: .valueChanged)
-        toolbarControl.delegate = self
+        colorMapControl.addTarget(self, action: #selector(colorMapValueChanged), for: .valueChanged)
+        hueSlider.addTarget(self, action: #selector(hueSliderValueChanged), for: .valueChanged)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func colorMapChangedColor() {
-        toolbarControl.selectedColor = colorMapControl.color
-        self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
+    @objc private func colorMapValueChanged() {
+        lastColor = color
     }
 
-    // MARK: - ToolbarViewDelegate
-
-    public func toolbarView(_: ToolbarView, didPick color: UIColor) {
-        delegate?.pickColorView(self, didTapSelectedColor: color)
-    }
-
-    public func toolbarView(_ toolbarView: ToolbarView, didUpdateHue hue: CGFloat) {
-        colorMapControl.hue = hue   
-    }
-    public func toolbarView(_: ToolbarView, didUpdateHue hue: CGFloat, withIntentEmit: Bool) {
-        colorMapControl.hue = hue
-        if withIntentEmit {
-            self.toolbarView(toolbarControl, didPick: toolbarControl.selectedColor)
-        }
-    }
-
-    public func toolbarView(_ toolbarView: ToolbarView, didSelectRecentColor color: UIColor) {
-        colorMapControl.color = color
-        delegate?.pickColorView(self, didPickRecentColor: color)
-    }
-
-    public func toolbarView(_ toolbarView: ToolbarView, didManuallyEnterColor color: UIColor) {
-        colorMapControl.color = color
-        delegate?.pickColorView(self, didManuallyEnterColor: color)
+    @objc private func hueSliderValueChanged() {
+        colorMapControl.set(hue: hueSlider.hue)
+        lastColor = color
     }
 
 }
